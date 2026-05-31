@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const StudentProfile = ({ studentId, onClose }) => {
   const [student, setStudent] = useState(null);
@@ -8,22 +8,22 @@ const StudentProfile = ({ studentId, onClose }) => {
   const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
+    const fetchStudentProfile = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`/api/mentor/student-profile/${studentId}`);
+        setStudent(response.data);
+      } catch (error) {
+        console.error('Error fetching student profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (studentId) {
       fetchStudentProfile();
     }
   }, [studentId]);
-
-  const fetchStudentProfile = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`/api/mentor/student-profile/${studentId}`);
-      setStudent(response.data);
-    } catch (error) {
-      console.error('Error fetching student profile:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getRiskColor = (riskLevel) => {
     switch (riskLevel) {
