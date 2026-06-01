@@ -46,43 +46,28 @@
 
 ```
 sih25EduBeacon/
-├── EduBeacon/
-│   ├── client/                          # React frontend
-│   │   ├── src/
-│   │   │   ├── components/              # React components
-│   │   │   │   ├── AdminRegister.js     # Admin registration page
-│   │   │   │   ├── Dashboard.js         # Main dashboard router
-│   │   │   │   ├── Home.js              # Landing page
-│   │   │   │   ├── Login.js             # Login page
-│   │   │   │   ├── DataPopulator.js     # Sample data generator
-│   │   │   │   ├── SmoothWavyCanvas.js  # Animated background
-│   │   │   │   ├── StudentProfile.js    # Student profile details
-│   │   │   │   ├── StudentsOverview.js  # Student list overview
-│   │   │   │   └── dashboards/          # Role-specific dashboards
-│   │   │   │       ├── AdminDashboard.js
-│   │   │   │       ├── MentorDashboard.js
-│   │   │   │       └── StudentDashboard.js
-│   │   │   ├── context/
-│   │   │   │   └── AuthContext.js       # Authentication context
-│   │   │   ├── App.js                   # Main app component
-│   │   │   ├── index.js                 # Entry point
-│   │   │   └── index.css                # Global styles & Tailwind
-│   │   ├── public/                      # Static assets
-│   │   ├── package.json
-│   │   └── tailwind.config.js
-│   │
-│   └── server/                          # Node.js backend
-│       ├── routes/                      # API routes
-│       ├── models/                      # MongoDB schemas
-│       ├── middleware/                  # Custom middleware
-│       ├── .env                         # Environment variables
-│       ├── server.js                    # Express server
-│       └── package.json
-│
-├── firebase.json                        # Firebase configuration
-├── firestore.rules                      # Firestore security rules
-├── README.md                            # Project documentation
-└── .gitignore
+├── .github/workflows/ci.yml             # Frontend production build (CI=true)
+├── .gitignore
+├── README.md
+└── EduBeacon/
+    ├── package.json                     # Runs client + server together (npm run dev)
+    ├── setup.js                         # Creates server/.env, installs dependencies
+    ├── client/                          # React frontend (Create React App)
+    │   ├── vercel.json                  # Vercel build settings
+    │   ├── .env.example                 # REACT_APP_API_BASE (production)
+    │   ├── src/
+    │   │   ├── components/              # Pages and dashboards
+    │   │   ├── context/AuthContext.js
+    │   │   ├── App.js
+    │   │   └── index.js                 # Axios base URL configuration
+    │   └── package.json
+    └── server/                          # Express API
+        ├── .env.example                 # Copy to .env (not committed)
+        ├── routes/                      # auth, admin, mentor, student
+        ├── models/
+        ├── middleware/
+        ├── config/database.js
+        └── server.js
 ```
 
 ---
@@ -97,96 +82,117 @@ sih25EduBeacon/
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/Grensuke/sih25EduBeacon.git
 cd sih25EduBeacon
 ```
 
-### 2. Backend Setup
+### 2. One-command setup (recommended)
 
 ```bash
-cd EduBeacon/server
+cd EduBeacon
+npm run setup
+```
 
-# Install dependencies
-npm install
+This copies `server/.env.example` → `server/.env` (if missing) and runs `npm run install-all`.
 
-# Create .env file with configuration
-cat > .env << EOF
-MONGODB_URI=mongodb://localhost:27017/edubeacon
-JWT_SECRET=your_jwt_secret_key_change_this_in_production
-GEMINI_API_KEY=your_gemini_api_key_here
-PORT=5000
-EOF
+Edit **`EduBeacon/server/.env`** with your MongoDB URI, `JWT_SECRET`, and `GEMINI_API_KEY`.
 
-# Start the server with Nodemon
+### 3. Run locally
+
+```bash
+cd EduBeacon
 npm run dev
 ```
 
-**Server will run on:** `http://localhost:5000`
+- **Frontend:** http://localhost:3000 (CRA proxies `/api` to the backend in development)
+- **Backend:** http://localhost:5000 — health check: http://localhost:5000/api/health
 
-### 3. Frontend Setup
+### Manual setup (alternative)
 
 ```bash
-cd EduBeacon/client
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm start
+cd EduBeacon
+npm run install-all
+cd server && cp .env.example .env   # Windows: copy .env.example .env
+# Edit server/.env, then from EduBeacon/: npm run dev
 ```
-
-**Frontend will run on:** `http://localhost:3000`
 
 ---
 
 ## Environment Variables
 
-### Backend (.env)
-```
-MONGODB_URI=mongodb://localhost:27017/edubeacon
-JWT_SECRET=your_jwt_secret_key_change_this_in_production
-GEMINI_API_KEY=your_gemini_api_key_here
-PORT=5000
-```
+| Location | File | Purpose |
+|----------|------|---------|
+| Backend | `EduBeacon/server/.env` | MongoDB, JWT, Gemini (copy from `.env.example`) |
+| Frontend (local) | `EduBeacon/client/.env.local` | Optional; see `.env.example` |
+| Frontend (Vercel) | Project env vars | **`REACT_APP_API_BASE`** = your live API URL |
 
-### Frontend (Proxy Configuration)
-The frontend is configured to proxy API requests to `http://localhost:5000` during development.
+**Development:** `client/package.json` sets `"proxy": "http://localhost:5000"` so Axios can call `/api/...` without a base URL.
+
+**Production:** `client/src/index.js` uses `REACT_APP_API_BASE` or falls back to the configured Render URL. You must set `REACT_APP_API_BASE` on Vercel.
+
+Legacy: `server/config.env` is still read by the server if present; prefer `.env` only.
+
+---
+
+## Deployment
+
+The app is split: **static React on Vercel**, **Express API on Render** (or similar).
+
+### Vercel (frontend)
+
+| Setting | Value |
+|---------|--------|
+| Root Directory | `EduBeacon/client` |
+| Framework | Create React App (or use repo `vercel.json`) |
+| Build Command | `npm run build` |
+| Output Directory | `build` |
+| Environment variable | `REACT_APP_API_BASE` = `https://your-api.onrender.com` |
+
+`EduBeacon/client/vercel.json` encodes build/output settings for consistency.
+
+### Render / backend host
+
+1. Root: `EduBeacon/server`
+2. Start: `npm start`
+3. Set env vars from `server/.env.example` in the dashboard
+4. Confirm `GET /api/health` returns `{ "message": "EduBeacon API is running!" }`
+
+### After deploy
+
+Open the Vercel site → login → verify network calls hit your API host (not `localhost`).
+
+### After moving to a new Vercel account (cleanup)
+
+1. **New project only** — In [GitHub → repo → Settings → Integrations](https://github.com/Grensuke/sih25EduBeacon/settings/installations), open **Vercel** and ensure only the new project (`sih25-edu-beacon`) is linked to this repo.
+2. **Remove old Vercel project** — On the old account/team, open the previous project (e.g. `sihedubeacon25`) → **Settings** → scroll to **Delete Project**.
+3. **Custom domain** — If you use a domain, remove it from the old project, then add it under the new project → **Settings** → **Domains**.
+4. **Render** — No change needed if `REACT_APP_API_BASE` still points to the same API URL.
 
 ---
 
 ## API Documentation
 
-### Authentication Endpoints
+Base URL: `http://localhost:5000` (dev) or your production API host.
 
-#### Admin Registration
-```
-POST /api/auth/register-admin
-Body: { name, email, password, organizationName }
-Response: { success, token, user }
-```
+All protected routes: `Authorization: Bearer <token>`.
 
-#### Login
-```
-POST /api/auth/login
-Body: { email, password }
-Response: { success, token, user }
-```
+### Authentication
 
-### Dashboard Endpoints
+| Method | Path | Body |
+|--------|------|------|
+| `POST` | `/api/auth/admin-register` | `{ name, email, password, organizationName }` |
+| `POST` | `/api/auth/login` | `{ email, password }` |
+| `GET` | `/api/auth/me` | — |
 
-#### Get Dashboard Analytics
-```
-GET /api/dashboard/analytics
-Headers: Authorization: Bearer <token>
-Response: { analytics data based on user role }
-```
+### Examples (role-specific)
 
-#### Get Student Profile
-```
-GET /api/mentor/student-profile/:studentId
-Headers: Authorization: Bearer <token>
-Response: { student details, attendance, grades, fee status }
-```
+| Role | Examples |
+|------|----------|
+| Admin | `GET /api/admin/users`, `POST /api/admin/users`, `GET /api/admin/departments` |
+| Mentor | `GET /api/mentor/students`, `GET /api/mentor/analytics`, `GET /api/mentor/student-profile/:id` |
+| Student | `POST /api/student/chatbot`, `GET /api/student/timetable` |
+
+See `EduBeacon/README.md` for a fuller endpoint list.
 
 ---
 
@@ -348,8 +354,8 @@ npm start
 
 ## Security Considerations
 
-1. **Authentication**: JWT tokens with 24-hour expiration
-2. **Password Hashing**: bcryptjs with salt rounds of 10
+1. **Authentication**: JWT tokens (30-day expiry in `routes/auth.js`)
+2. **Password Hashing**: bcrypt (12 rounds in `User` model pre-save)
 3. **Input Validation**: Server-side validation on all endpoints
 4. **CORS**: Configured for development (update for production)
 5. **Environment Variables**: Sensitive data in .env files

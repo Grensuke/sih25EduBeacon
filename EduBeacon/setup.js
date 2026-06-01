@@ -1,29 +1,41 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
-console.log('🚀 Setting up EduBeacon...\n');
+const serverDir = path.join(__dirname, 'server');
+const envPath = path.join(serverDir, '.env');
+const examplePath = path.join(serverDir, '.env.example');
+const legacyConfigPath = path.join(serverDir, 'config.env');
 
-// Check if .env exists in server directory
-const envPath = path.join(__dirname, 'server', '.env');
-const configPath = path.join(__dirname, 'server', 'config.env');
+console.log('Setting up EduBeacon...\n');
 
-if (!fs.existsSync(envPath) && fs.existsSync(configPath)) {
-  console.log('📝 Creating .env file from config.env...');
-  fs.copyFileSync(configPath, envPath);
-  console.log('✅ .env file created successfully!');
-} else if (fs.existsSync(envPath)) {
-  console.log('✅ .env file already exists');
+if (!fs.existsSync(envPath)) {
+  if (fs.existsSync(examplePath)) {
+    console.log('Creating server/.env from .env.example...');
+    fs.copyFileSync(examplePath, envPath);
+    console.log('Created server/.env — edit it with your MongoDB URI, JWT_SECRET, and GEMINI_API_KEY.');
+  } else if (fs.existsSync(legacyConfigPath)) {
+    console.log('Creating server/.env from config.env (legacy)...');
+    fs.copyFileSync(legacyConfigPath, envPath);
+    console.log('Created server/.env from config.env.');
+  } else {
+    console.log('Warning: server/.env.example not found. Create server/.env manually.');
+  }
 } else {
-  console.log('⚠️  Please create a .env file in the server directory');
-  console.log('   Copy config.env to .env and update with your credentials');
+  console.log('server/.env already exists.');
 }
 
-console.log('\n📦 Installing dependencies...');
-console.log('   This may take a few minutes...\n');
+console.log('\nInstalling dependencies (root, server, client)...');
+try {
+  execSync('npm run install-all', { cwd: __dirname, stdio: 'inherit' });
+} catch (e) {
+  console.error('\nInstall failed. Run manually from EduBeacon/: npm run install-all');
+  process.exit(1);
+}
 
-console.log('🎉 Setup complete!');
-console.log('\nNext steps:');
-console.log('1. Update server/.env with your MongoDB URI and Gemini API key');
-console.log('2. Run: npm run dev');
-console.log('3. Open http://localhost:3000 in your browser');
-console.log('\nHappy coding! 🎓');
+console.log('\nSetup complete.\n');
+console.log('Next steps:');
+console.log('  1. Edit EduBeacon/server/.env with real credentials');
+console.log('  2. From EduBeacon/: npm run dev');
+console.log('  3. Open http://localhost:3000');
+console.log('\nDeploy: see README.md → Deployment');

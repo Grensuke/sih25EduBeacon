@@ -38,10 +38,11 @@ EduBeacon is a comprehensive MERN stack application designed to prevent student 
 2. **Environment Setup**
    ```bash
    cd server
-   cp config.env .env
+   cp .env.example .env
    ```
-   
-   Edit `.env` file with your credentials:
+   On Windows: `copy .env.example .env`
+
+   Edit `.env` with your credentials:
    ```
    NODE_ENV=development
    PORT=5000
@@ -133,15 +134,25 @@ EduBeacon/
 
 ## Environment Variables
 
-Create a `.env` file in the `server` directory:
+Copy `server/.env.example` to `server/.env` and fill in values. Never commit `.env`.
 
-```env
-NODE_ENV=development
-PORT=5000
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/edubeacon
-JWT_SECRET=your-super-secret-jwt-key-here
-GEMINI_API_KEY=your-gemini-api-key-here
-```
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `MONGODB_URI` | Yes | MongoDB connection string |
+| `JWT_SECRET` | Yes | Secret for signing JWTs |
+| `GEMINI_API_KEY` | Yes (for AI chat) | Google Gemini API key |
+| `PORT` | No | Default `5000` |
+
+**Frontend (production):** set `REACT_APP_API_BASE` on Vercel to your deployed API URL. See `client/.env.example`.
+
+## Deployment
+
+| Component | Host | Notes |
+|-----------|------|--------|
+| Frontend | Vercel | Root directory: `client`, env: `REACT_APP_API_BASE` |
+| Backend | Render (or similar) | Root: `server`, env from `.env.example` |
+
+Repo includes `client/vercel.json` and `.github/workflows/ci.yml` (client build with `CI=true`).
 
 ## Getting API Keys
 
