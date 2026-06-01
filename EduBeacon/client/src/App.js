@@ -15,8 +15,8 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen flex items-center justify-center" role="status" aria-live="polite">
+        <div className="loading-spinner" aria-label="Loading" />
       </div>
     );
   }
@@ -44,7 +44,10 @@ function App() {
           lineOpacity={2}
           animationSpeed={0.008}
         />
-        <div className="App relative z-10">
+        <div className="App relative z-10 min-h-screen">
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

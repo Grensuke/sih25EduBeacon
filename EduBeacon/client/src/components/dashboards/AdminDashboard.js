@@ -248,7 +248,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       {/* Header with Tab Navigation */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-primary-400">Admin Dashboard</h1>
@@ -257,12 +257,10 @@ const AdminDashboard = () => {
             {adminTabs.map(tab => (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  activeTab === tab.id
-                    ? 'bg-primary-600/20 text-primary-400 border border-primary-500/30'
-                    : 'text-primary-300/70 hover:text-primary-400 hover:bg-primary-500/10'
-                }`}
+                className={activeTab === tab.id ? 'btn-tab-active' : 'btn-tab'}
+                aria-current={activeTab === tab.id ? 'page' : undefined}
               >
                 {tab.label}
               </button>

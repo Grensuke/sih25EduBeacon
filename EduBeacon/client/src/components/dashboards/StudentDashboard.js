@@ -270,17 +270,17 @@ const StudentDashboard = () => {
       <div className="glass-effect rounded-xl shadow-lg p-6">
         <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="p-4 glass-effect rounded-lg hover:bg-black/30 transition-colors">
+          <button type="button" className="btn-tile glass-effect">
             <div className="text-2xl mb-2">📚</div>
             <h3 className="font-semibold text-white">Study Resources</h3>
             <p className="text-sm text-white/80">Access learning materials</p>
           </button>
-          <button className="p-4 glass-effect rounded-lg hover:bg-black/30 transition-colors">
+          <button type="button" className="btn-tile glass-effect">
             <div className="text-2xl mb-2">📝</div>
             <h3 className="font-semibold text-white">Submit Assignment</h3>
             <p className="text-sm text-white/80">Upload your work</p>
           </button>
-          <button className="p-4 glass-effect rounded-lg hover:bg-black/30 transition-colors">
+          <button type="button" className="btn-tile glass-effect">
             <div className="text-2xl mb-2">📞</div>
             <h3 className="font-semibold text-white">Contact Mentor</h3>
             <p className="text-sm text-white/80">Get help from your mentor</p>

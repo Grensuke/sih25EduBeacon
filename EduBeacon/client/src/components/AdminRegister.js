@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import AuthPageLayout from './ui/AuthPageLayout';
 
 const AdminRegister = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +9,7 @@ const AdminRegister = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    organizationName: ''
+    organizationName: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ const AdminRegister = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -45,150 +46,123 @@ const AdminRegister = () => {
       formData.password,
       formData.organizationName
     );
-    
+
     if (result.success) {
       navigate('/dashboard');
     } else {
       setError(result.message);
     }
-    
+
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen">
-      {/* Navigation */}
-      <nav className="nav-glass-effect px-6 py-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold text-primary-500">
-            EduBeacon
+    <AuthPageLayout title="Create Organization" subtitle="Set up your EduBeacon organization">
+      {error && (
+        <div className="error-message mb-6" role="alert">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-primary-400 mb-2">
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            autoComplete="name"
+            className="input-field"
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-primary-400 mb-2">
+            Email Address
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            autoComplete="email"
+            className="input-field"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="organizationName" className="block text-sm font-medium text-primary-400 mb-2">
+            Organization Name
+          </label>
+          <input
+            type="text"
+            id="organizationName"
+            name="organizationName"
+            value={formData.organizationName}
+            onChange={handleChange}
+            required
+            className="input-field"
+            placeholder="Enter organization name"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium text-primary-400 mb-2">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            autoComplete="new-password"
+            className="input-field"
+            placeholder="Create a password"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-primary-400 mb-2">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            autoComplete="new-password"
+            className="input-field"
+            placeholder="Confirm your password"
+          />
+        </div>
+
+        <button type="submit" disabled={loading} className="w-full btn-primary" aria-busy={loading}>
+          {loading ? 'Creating Organization...' : 'Create Organization'}
+        </button>
+      </form>
+
+      <div className="mt-6 text-center">
+        <p className="text-primary-300">
+          Already have an account?{' '}
+          <Link to="/login" className="link-text">
+            Sign In
           </Link>
-        </div>
-      </nav>
-
-      <div className="flex items-center justify-center px-4 min-h-[calc(100vh-80px)]">
-        <div className="max-w-md w-full">
-          <div className="liquid-form rounded-xl shadow-lg p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-primary-400 mb-2">Create Organization</h1>
-            <p className="text-primary-300">Set up your EduBeacon organization</p>
-          </div>
-
-          {error && (
-            <div className="error-message mb-6">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-primary-400 mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="input-field"
-                placeholder="Enter your full name"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-primary-400 mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="input-field"
-                placeholder="Enter your email"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-primary-400 mb-2">
-                Organization Name
-              </label>
-              <input
-                type="text"
-                id="organizationName"
-                name="organizationName"
-                value={formData.organizationName}
-                onChange={handleChange}
-                required
-                className="input-field"
-                placeholder="Enter organization name"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-primary-400 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="input-field"
-                placeholder="Create a password"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-primary-400 mb-2">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                className="input-field"
-                placeholder="Confirm your password"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Creating Organization...' : 'Create Organization'}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-primary-300">
-              Already have an account?{' '}
-              <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium">
-                Sign In
-              </Link>
-            </p>
-          </div>
-          </div>
-        </div>
+        </p>
       </div>
-
-      {/* Footer */}
-      <footer className="nav-glass-effect py-8 mt-8">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-primary-400">&copy; 2024 EduBeacon. Empowering student success through AI.</p>
-        </div>
-      </footer>
-    </div>
+    </AuthPageLayout>
   );
 };
 

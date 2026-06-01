@@ -16,37 +16,34 @@ const Dashboard = () => {
       case 'student':
         return <StudentDashboard />;
       default:
-        return <div>Unknown role</div>;
+        return <div className="text-primary-300">Unknown role</div>;
     }
   };
 
   return (
-    <div className="min-h-screen">
-      {/* Navigation */}
-      <nav className="nav-glass-effect shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-bold text-primary-400">EduBeacon</h1>
-              <span className="ml-4 px-3 py-1 bg-white/20 text-primary-400 text-sm font-medium rounded-full">
+    <div className="min-h-screen flex flex-col">
+      <header className="nav-glass-effect">
+        <div className="page-container">
+          <div className="flex flex-wrap items-center justify-between gap-4 min-h-[4.5rem] py-3">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <h1 className="text-lg sm:text-xl font-bold text-primary-400">EduBeacon</h1>
+              <span className="inline-flex items-center min-h-[44px] px-3 py-1 bg-white/10 text-primary-400 text-sm font-medium rounded-full border border-primary-500/20">
                 {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
               </span>
             </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-primary-300">Welcome, {user.name}</span>
-              <button
-                onClick={logout}
-                className="text-primary-400 hover:text-primary-300 px-3 py-2 rounded-md text-sm font-medium"
-              >
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <span className="text-primary-300 text-sm sm:text-base truncate max-w-[12rem] sm:max-w-none">
+                Welcome, {user.name}
+              </span>
+              <button type="button" onClick={logout} className="btn-ghost">
                 Logout
               </button>
             </div>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Dashboard Content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main id="main-content" className="page-container flex-1 py-6 sm:py-8">
         {renderDashboard()}
       </main>
     </div>

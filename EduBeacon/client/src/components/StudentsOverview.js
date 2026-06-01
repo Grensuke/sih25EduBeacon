@@ -188,14 +188,14 @@ const StudentsOverview = () => {
                   <div className="flex space-x-2">
                     <button
                       onClick={() => openStudentProfile(alert.student)}
-                      className="btn-secondary text-xs px-2 py-1"
+                      className="btn-secondary"
                     >
                       View Profile
                     </button>
                     {!alert.acknowledged && (
                       <button
                         onClick={() => acknowledgeAlert(alert._id, alert.student._id)}
-                        className="btn-primary text-xs px-2 py-1"
+                        className="btn-primary"
                       >
                         Acknowledge
                       </button>
@@ -421,7 +421,7 @@ const StudentsOverview = () => {
                           e.stopPropagation();
                           openStudentProfile(student);
                         }}
-                        className="btn-primary text-xs px-3 py-1"
+                        className="btn-primary"
                       >
                         View Profile
                       </button>

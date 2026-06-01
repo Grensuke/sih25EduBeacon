@@ -165,7 +165,12 @@ const MentorDashboard = () => {
         <h2 className="text-xl font-bold text-white mb-4">Assigned Students</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {students.map((student) => (
-            <button key={student._id} onClick={() => openStudentDetail(student._id)} className="text-left glass-effect rounded-lg p-4 hover:bg-white/10 transition-colors">
+            <button
+              key={student._id}
+              type="button"
+              onClick={() => openStudentDetail(student._id)}
+              className="btn-tile glass-effect w-full"
+            >
               <h3 className="font-semibold text-white">{student.name}</h3>
               <p className="text-white/80 text-sm">{student.email}</p>
               <div className="mt-2 flex items-center gap-2">
@@ -207,7 +212,14 @@ const MentorDashboard = () => {
           <div className="glass-effect rounded-lg p-6 w-full max-w-3xl">
             <div className="flex items-start justify-between mb-4">
               <h3 className="text-lg font-bold text-white">Student Details</h3>
-              <button onClick={() => { setDetailOpen(false); setSelectedStudent(null); }} className="text-white/70 hover:text-white">✕</button>
+              <button
+                type="button"
+                onClick={() => { setDetailOpen(false); setSelectedStudent(null); }}
+                className="btn-icon"
+                aria-label="Close student details"
+              >
+                ✕
+              </button>
             </div>
             {detailLoading || !selectedStudent ? (
               <div className="flex items-center justify-center h-40">
