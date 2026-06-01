@@ -69,7 +69,7 @@ const SmoothWavyCanvas = ({
     const numPrimaryLines = 35;
     for (let i = 0; i < numPrimaryLines; i++) {
       const yPos = (i / numPrimaryLines) * height;
-      const { intensity: fieldIntensity } = getEnergyFieldInfluence(width / 2, yPos, currentTime);
+      getEnergyFieldInfluence(width / 2, yPos, currentTime);
       const amplitude = 45 + 25 * Math.sin(timeRef.current * 0.25 + i * 0.15);
       const frequency = 0.006 + 0.002 * Math.sin(timeRef.current * 0.12 + i * 0.08);
       const speed = timeRef.current * (0.6 + 0.3 * Math.sin(i * 0.12));
@@ -95,7 +95,7 @@ const SmoothWavyCanvas = ({
     const numSecondaryLines = 25;
     for (let i = 0; i < numSecondaryLines; i++) {
       const xPos = (i / numSecondaryLines) * width;
-      const { intensity: fieldIntensity } = getEnergyFieldInfluence(xPos, height / 2, currentTime);
+      getEnergyFieldInfluence(xPos, height / 2, currentTime);
       const amplitude = 40 + 20 * Math.sin(timeRef.current * 0.18 + i * 0.14);
       const frequency = 0.007 + 0.003 * Math.cos(timeRef.current * 0.14 + i * 0.09);
       const speed = timeRef.current * (0.5 + 0.25 * Math.cos(i * 0.16));
@@ -122,7 +122,6 @@ const SmoothWavyCanvas = ({
     for (let i = 0; i < numAccentLines; i++) {
       const offset = (i / numAccentLines) * width * 1.5 - width * 0.25;
       const amplitude = 30 + 15 * Math.cos(timeRef.current * 0.22 + i * 0.12);
-      const frequency = 0.01 + 0.004 * Math.sin(timeRef.current * 0.16 + i * 0.1);
       const phase = timeRef.current * (0.4 + 0.2 * Math.sin(i * 0.13));
       const thickness = 0.4 + 0.25 * Math.sin(timeRef.current + i * 0.28);
       const opacity =
