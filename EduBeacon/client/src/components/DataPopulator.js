@@ -263,8 +263,8 @@ const DataPopulator = () => {
 
   return (
     <div className="glass-effect rounded-xl p-6 m-6">
-      <h2 className="text-2xl font-bold text-[rgb(51,116,253)] mb-4">📊 Sample Data Populator</h2>
-      <p className="text-[rgb(51,116,253)] mb-6">
+      <h2 className="text-2xl font-bold text-primary-400 mb-4">📊 Sample Data Populator</h2>
+      <p className="text-primary-300 mb-6">
         This tool will create 4 sample students with realistic attendance, academic, and fee data to test the new consolidated features.
       </p>
 
@@ -295,13 +295,13 @@ const DataPopulator = () => {
 
       {progress && (
         <div className="bg-white/5 rounded-lg p-4 mb-4">
-          <p className="text-[rgb(51,116,253)] font-mono text-sm">{progress}</p>
+          <p className="text-primary-300 font-mono text-sm">{progress}</p>
         </div>
       )}
 
       {results.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-[rgb(51,116,253)]">Results:</h3>
+          <h3 className="text-lg font-semibold text-primary-400">Results:</h3>
           {results.map((result, index) => (
             <div key={index} className={`p-3 rounded-lg ${
               result.status === 'success' 
@@ -312,7 +312,7 @@ const DataPopulator = () => {
                 <span className={result.status === 'success' ? 'text-emerald-400' : 'text-red-400'}>
                   {result.status === 'success' ? '✅' : '❌'}
                 </span>
-                <span className="font-medium text-[rgb(51,116,253)]">{result.name}</span>
+                <span className="font-medium text-primary-400">{result.name}</span>
                 <span className={result.status === 'success' ? 'text-emerald-400' : 'text-red-400'}>
                   {result.message}
                 </span>
@@ -323,8 +323,8 @@ const DataPopulator = () => {
       )}
 
       <div className="mt-6 p-4 bg-blue-400/10 border border-blue-400/30 rounded-lg">
-        <h4 className="font-semibold text-[rgb(51,116,253)] mb-2">💡 Instructions:</h4>
-        <ol className="list-decimal list-inside space-y-1 text-sm text-[rgb(51,116,253)]">
+        <h4 className="font-semibold text-primary-400 mb-2">💡 Instructions:</h4>
+        <ol className="list-decimal list-inside space-y-1 text-sm text-primary-300">
           <li>Make sure you're logged in as an Admin</li>
           <li>Click "Populate Sample Data" to create the test students</li>
           <li>Go to Mentor Dashboard → Students Management to see the results</li>

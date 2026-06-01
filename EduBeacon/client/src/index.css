@@ -23,17 +23,17 @@
     border-radius: 12px;
     border: 1px solid;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 32px rgba(51, 116, 253, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    background: linear-gradient(135deg, rgba(51, 116, 253, 0.3) 0%, rgba(51, 116, 253, 0.2) 50%, rgba(51, 116, 253, 0.4) 100%);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0.2) 50%, rgba(37, 99, 235, 0.4) 100%);
     backdrop-filter: blur(20px) saturate(180%);
-    border-color: rgba(51, 116, 253, 0.3);
-    color: rgb(51, 116, 253);
+    border-color: rgba(37, 99, 235, 0.3);
+    color: rgb(59, 130, 246);
   }
   
   .btn-primary:hover {
-    background: linear-gradient(135deg, rgba(51, 116, 253, 0.4) 0%, rgba(51, 116, 253, 0.4) 50%, rgb(51, 116, 253, 0.4) 100%);
-    border-color: rgba(51, 116, 253, 0.4);
-    box-shadow: 0 12px 40px rgba(51, 116, 253, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.4) 0%, rgba(37, 99, 235, 0.4) 50%, rgba(37, 99, 235, 0.4) 100%);
+    border-color: rgba(37, 99, 235, 0.4);
+    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
     color: rgb(255, 255, 255);
   }
@@ -44,27 +44,27 @@
     border-radius: 12px;
     border: 1px solid;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 32px rgba(51, 116, 253, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    background: linear-gradient(135deg, rgba(51, 116, 253, 0.2) 0%, rgba(51, 116, 253, 0.1) 50%, rgba(51, 116, 253, 0.3) 100%);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0.1) 50%, rgba(37, 99, 235, 0.3) 100%);
     backdrop-filter: blur(20px) saturate(180%);
-    border-color: rgba(51, 116, 253, 0.2);
-    color: rgb(51, 116, 253);
+    border-color: rgba(37, 99, 235, 0.2);
+    color: rgb(59, 130, 246);
   }
   
   .btn-secondary:hover {
-    background: linear-gradient(135deg, rgba(51, 116, 253, 0.3) 0%, rgba(51, 116, 253, 0.2) 50%, rgba(51, 116, 253, 0.4) 100%);
-    border-color: rgba(51, 116, 253, 0.3);
-    box-shadow: 0 12px 40px rgba(51, 116, 253, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0.2) 50%, rgba(37, 99, 235, 0.4) 100%);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
     color: rgb(255, 255, 255);
   }
   
   .card {
     @apply rounded-xl shadow-lg p-6 border transition-all duration-300;
-    background: linear-gradient(135deg, rgba(51, 116, 253, 0.15) 0%, rgba(51, 116, 253, 0.08) 50%, rgba(51, 116, 253, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0.08) 50%, rgba(37, 99, 235, 0.2) 100%);
     backdrop-filter: blur(25px) saturate(200%);
-    border: 1px solid rgba(51, 116, 253, 0.2);
-    box-shadow: 0 8px 32px rgba(51, 116, 253, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   
   .input-field {
@@ -72,29 +72,29 @@
     padding: 12px 16px;
     border-radius: 12px;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, rgba(51, 116, 253, 0.2) 0%, rgba(51, 116, 253, 0.1) 50%, rgba(51, 116, 253, 0.25) 100%);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0.1) 50%, rgba(37, 99, 235, 0.25) 100%);
     backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(51, 116, 253, 0.3);
-    box-shadow: 0 4px 16px rgba(51, 116, 253, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    color: rgb(51, 116, 253);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    color: rgb(59, 130, 246);
   }
   
   .input-field::placeholder {
-    color: rgba(51, 116, 253, 0.6);
+    color: rgba(59, 130, 246, 0.6);
   }
   
   .input-field:focus {
     outline: none;
-    background: linear-gradient(135deg, rgba(51, 116, 253, 0.3) 0%, rgba(51, 116, 253, 0.2) 50%, rgba(51, 116, 253, 0.35) 100%);
-    border-color: rgba(51, 116, 253, 0.5);
-    box-shadow: 0 8px 24px rgba(51, 116, 253, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 3px rgba(51, 116, 253, 0.1);
-    color: rgb(51, 116, 253);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0.2) 50%, rgba(37, 99, 235, 0.35) 100%);
+    border-color: rgba(37, 99, 235, 0.5);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 3px rgba(37, 99, 235, 0.1);
+    color: rgb(59, 130, 246);
   }
   
   /* Select dropdown styling */
   .input-field option {
-    background: rgba(51, 116, 253, 0.9);
-    color: rgb(51, 116, 253);
+    background: rgba(37, 99, 235, 0.9);
+    color: rgb(59, 130, 246);
     padding: 8px;
   }
   

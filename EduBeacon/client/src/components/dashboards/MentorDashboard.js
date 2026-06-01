@@ -77,7 +77,7 @@ const MentorDashboard = () => {
     <div className="space-y-6 p-6">
       {/* Header with Tab Navigation */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-[rgb(51,116,253)]">Mentor Dashboard</h1>
+        <h1 className="text-3xl font-bold text-primary-400">Mentor Dashboard</h1>
         <div className="flex space-x-1">
           {[
             { id: 'overview', label: 'Analytics Overview' },
@@ -88,8 +88,8 @@ const MentorDashboard = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 activeTab === tab.id
-                  ? 'bg-[rgb(51,116,253)]/20 text-[rgb(51,116,253)] border border-[rgb(51,116,253)]/30'
-                  : 'text-[rgb(51,116,253)]/70 hover:text-[rgb(51,116,253)] hover:bg-[rgb(51,116,253)]/10'
+                  ? 'bg-primary-600/20 text-primary-400 border border-primary-500/30'
+                  : 'text-primary-300/70 hover:text-primary-400 hover:bg-primary-500/10'
               }`}
             >
               {tab.label}
@@ -106,32 +106,32 @@ const MentorDashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="glass-effect rounded-xl shadow-lg p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{analytics?.totalStudents || 0}</div>
-          <div className="text-[rgb(51,116,253)]">Assigned Students</div>
+          <div className="text-2xl font-bold text-primary-400">{analytics?.totalStudents || 0}</div>
+          <div className="text-primary-300">Assigned Students</div>
         </div>
         <div className="glass-effect rounded-xl shadow-lg p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{(analytics?.attendanceRate || 0).toFixed ? (analytics?.attendanceRate || 0).toFixed(1) : analytics?.attendanceRate || 0}%</div>
-          <div className="text-[rgb(51,116,253)]">Avg Attendance</div>
+          <div className="text-2xl font-bold text-primary-400">{(analytics?.attendanceRate || 0).toFixed ? (analytics?.attendanceRate || 0).toFixed(1) : analytics?.attendanceRate || 0}%</div>
+          <div className="text-primary-300">Avg Attendance</div>
         </div>
         <div className="glass-effect rounded-xl shadow-lg p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{analytics?.riskCounts?.medium || 0}</div>
-          <div className="text-[rgb(51,116,253)]">Medium Risk</div>
+          <div className="text-2xl font-bold text-primary-400">{analytics?.riskCounts?.medium || 0}</div>
+          <div className="text-primary-300">Medium Risk</div>
         </div>
         <div className="glass-effect rounded-xl shadow-lg p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{analytics?.riskCounts?.high || 0}</div>
-          <div className="text-[rgb(51,116,253)]">High Risk</div>
+          <div className="text-2xl font-bold text-primary-400">{analytics?.riskCounts?.high || 0}</div>
+          <div className="text-primary-300">High Risk</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Weekly Trends */}
         <div className="glass-effect rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Weekly Trends</h2>
+          <h2 className="text-xl font-bold text-primary-400 mb-4">Weekly Trends</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={analytics?.weeklyTrends || []}>
               <CartesianGrid strokeDasharray="3 3" stroke="#ffffff40" />
-              <XAxis dataKey="week" stroke="rgb(51,116,253)" />
-              <YAxis stroke="rgb(51,116,253)" />
+              <XAxis dataKey="week" stroke="rgb(59, 130, 246)" />
+              <YAxis stroke="rgb(59, 130, 246)" />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', color: '#ffffff' }}
                 labelStyle={{ color: '#ffffff' }}

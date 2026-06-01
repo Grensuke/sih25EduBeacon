@@ -41,7 +41,7 @@ const Login = () => {
       {/* Navigation */}
       <nav className="nav-glass-effect px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold text-[rgb(51,116,253)]">
+          <Link to="/" className="text-2xl font-bold text-primary-500">
             EduBeacon
           </Link>
         </div>
@@ -51,8 +51,8 @@ const Login = () => {
         <div className="max-w-md w-full">
           <div className="liquid-form rounded-xl shadow-lg p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[rgb(51,116,253)] mb-2">Welcome Back</h1>
-            <p className="text-[rgb(51,116,253)]">Sign in to your EduBeacon account</p>
+            <h1 className="text-3xl font-bold text-primary-400 mb-2">Welcome Back</h1>
+            <p className="text-primary-300">Sign in to your EduBeacon account</p>
           </div>
 
           {error && (
@@ -63,7 +63,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-[rgb(51,116,253)] mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-primary-400 mb-2">
                 Email Address
               </label>
               <input
@@ -79,7 +79,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-[rgb(51,116,253)] mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-primary-400 mb-2">
                 Password
               </label>
               <input
@@ -104,10 +104,10 @@ const Login = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-[rgb(51,116,253)]">
+            <p className="text-primary-300">
               Don't have an account?{' '}
-              <Link to="/admin-register" className="text-[rgb(51,116,253)] hover:text-[rgb(51,116,253)]/80 font-medium">
-                Create Organization
+              <Link to="/admin-register" className="text-primary-400 hover:text-primary-300 font-medium">
+                Create one
               </Link>
             </p>
           </div>
@@ -118,7 +118,7 @@ const Login = () => {
       {/* Footer */}
       <footer className="nav-glass-effect py-8 mt-8">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-[rgb(51,116,253)]">&copy; 2024 EduBeacon. Empowering student success through AI.</p>
+          <p className="text-primary-400">&copy; 2024 EduBeacon. Empowering student success through AI.</p>
         </div>
       </footer>
     </div>

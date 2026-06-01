@@ -127,22 +127,22 @@ const StudentDashboard = () => {
   return (
     <div className="space-y-6 p-6">
       {/* Header */}
-      <h1 className="text-3xl font-bold text-[rgb(51,116,253)] mb-2">Student Dashboard</h1>
+      <h1 className="text-3xl font-bold text-primary-400 mb-2">Student Dashboard</h1>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Column 1: Schedule */}
         <div className="xl:col-span-1 glass-effect rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">My Schedule</h2>
+          <h2 className="text-xl font-bold text-primary-400 mb-4">My Schedule</h2>
           <div className="space-y-3 max-h-[28rem] overflow-auto pr-1">
             {timetable.events.length > 0 ? (
               timetable.events.map((event, index) => (
                 <div key={index} className="p-4 glass-effect rounded-lg">
-                  <h3 className="font-semibold text-[rgb(51,116,253)]">{event.title}</h3>
-                  <p className="text-sm text-[rgb(51,116,253)] mt-1">
+                  <h3 className="font-semibold text-primary-400">{event.title}</h3>
+                  <p className="text-sm text-primary-300 mt-1">
                     {new Date(event.start).toLocaleString()} - {new Date(event.end).toLocaleString()}
                   </p>
                   {event.description && (
-                    <p className="text-sm text-[rgb(51,116,253)] mt-2">{event.description}</p>
+                    <p className="text-sm text-primary-300 mt-2">{event.description}</p>
                   )}
                   <span className={`inline-block mt-2 px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm ${
                     event.type === 'class' ? 'bg-blue-400/20 text-blue-200 border border-blue-400/30' :
@@ -155,14 +155,14 @@ const StudentDashboard = () => {
                 </div>
               ))
             ) : (
-              <p className="text-[rgb(51,116,253)] text-center py-8">No events scheduled</p>
+              <p className="text-primary-300 text-center py-8">No events scheduled</p>
             )}
           </div>
         </div>
 
         {/* Column 2: AI Counselor Chat */}
         <div className="xl:col-span-1 glass-effect rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">AI Counselor</h2>
+          <h2 className="text-xl font-bold text-primary-400 mb-4">AI Counselor</h2>
           <div className="relative flex flex-col h-[32rem] overflow-hidden">
             {/* Messages */}
             <div className="flex-1 overflow-y-auto space-y-4 pr-1">

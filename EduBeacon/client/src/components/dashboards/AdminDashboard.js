@@ -242,7 +242,7 @@ const AdminDashboard = () => {
     <div className="space-y-6 p-6">
       {/* Header with Tab Navigation */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-[rgb(51,116,253)]">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold text-primary-400">Admin Dashboard</h1>
         <div className="flex items-center space-x-4">
           <div className="flex space-x-1">
             {[
@@ -254,8 +254,8 @@ const AdminDashboard = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   activeTab === tab.id
-                    ? 'bg-[rgb(51,116,253)]/20 text-[rgb(51,116,253)] border border-[rgb(51,116,253)]/30'
-                    : 'text-[rgb(51,116,253)]/70 hover:text-[rgb(51,116,253)] hover:bg-[rgb(51,116,253)]/10'
+                    ? 'bg-primary-600/20 text-primary-400 border border-primary-500/30'
+                    : 'text-primary-300/70 hover:text-primary-400 hover:bg-primary-500/10'
                 }`}
               >
                 {tab.label}
@@ -277,41 +277,41 @@ const AdminDashboard = () => {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{users.length}</div>
-          <div className="text-[rgb(51,116,253)]">Total Users</div>
+          <div className="text-2xl font-bold text-primary-400">{users.length}</div>
+          <div className="text-primary-300">Total Users</div>
         </div>
         <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{users.filter(u => u.role === 'student').length}</div>
-          <div className="text-[rgb(51,116,253)]">Students</div>
+          <div className="text-2xl font-bold text-primary-400">{users.filter(u => u.role === 'student').length}</div>
+          <div className="text-primary-300">Students</div>
         </div>
         <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{users.filter(u => u.role === 'mentor').length}</div>
-          <div className="text-[rgb(51,116,253)]">Mentors</div>
+          <div className="text-2xl font-bold text-primary-400">{users.filter(u => u.role === 'mentor').length}</div>
+          <div className="text-primary-300">Mentors</div>
         </div>
         <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{departments.length}</div>
-          <div className="text-[rgb(51,116,253)]">Departments</div>
+          <div className="text-2xl font-bold text-primary-400">{departments.length}</div>
+          <div className="text-primary-300">Departments</div>
         </div>
       </div>
 
       {/* Users Table */}
       <div className="glass-effect rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Users & Invitation Codes</h2>
+        <h2 className="text-xl font-bold text-primary-400 mb-4">Users & Invitation Codes</h2>
         <div className="overflow-x-auto">
           <table className="liquid-glass-table min-w-full">
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[rgb(51,116,253)] uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[rgb(51,116,253)] uppercase tracking-wider">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[rgb(51,116,253)] uppercase tracking-wider">Role</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[rgb(51,116,253)] uppercase tracking-wider">Invitation Code</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-primary-400 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-primary-400 uppercase tracking-wider">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-primary-400 uppercase tracking-wider">Role</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-primary-400 uppercase tracking-wider">Invitation Code</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/20">
               {users.map((user) => (
                 <tr key={user.id} className="hover:bg-white/5 transition-colors duration-200">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[rgb(51,116,253)]">{user.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[rgb(51,116,253)]">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-400">{user.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-primary-300">{user.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full backdrop-blur-sm ${
                       user.role === 'student' ? 'bg-emerald-400/20 text-emerald-200 border border-emerald-400/30' :
@@ -321,7 +321,7 @@ const AdminDashboard = () => {
                       {user.role}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-[rgb(51,116,253)] bg-white/5 rounded-lg">{user.uniqueCode}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-primary-400 bg-white/5 rounded-lg">{user.uniqueCode}</td>
                 </tr>
               ))}
             </tbody>
@@ -331,7 +331,7 @@ const AdminDashboard = () => {
 
       {/* Mentor Assignment */}
       <div className="glass-effect rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Assign Mentor to Student</h2>
+        <h2 className="text-xl font-bold text-primary-400 mb-4">Assign Mentor to Student</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
           <div>
             <label className="block text-[rgb(51,116,253)] text-sm mb-2">Student</label>
@@ -343,7 +343,7 @@ const AdminDashboard = () => {
             </select>
           </div>
           <div>
-            <label className="block text-[rgb(51,116,253)] text-sm mb-2">Mentor</label>
+            <label className="block text-primary-400 text-sm mb-2">Mentor</label>
             <select value={selectedMentorId} onChange={(e) => setSelectedMentorId(e.target.value)} className="input-field">
               <option value="">Select a mentor</option>
               {mentors.map(m => (
