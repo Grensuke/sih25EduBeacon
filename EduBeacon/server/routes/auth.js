@@ -17,6 +17,10 @@ const generateToken = (id) => {
 // @desc    Register admin and create organization
 // @access  Public
 router.post('/admin-register', async (req, res) => {
+  if (process.env.DISABLE_PUBLIC_ADMIN_REGISTER === 'true') {
+    return res.status(403).json({ message: 'Admin registration is disabled on this server.' });
+  }
+
   try {
     const { name, email, password, organizationName } = req.body;
 

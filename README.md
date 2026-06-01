@@ -132,6 +132,14 @@ cd server && cp .env.example .env   # Windows: copy .env.example .env
 
 Legacy: `server/config.env` is still read by the server if present; prefer `.env` only.
 
+### Production hardening (Render)
+
+| Variable | Suggested value |
+|----------|-----------------|
+| `NODE_ENV` | `production` |
+| `ALLOWED_ORIGINS` | `https://sih25edubeacon.vercel.app` (comma-separate if multiple) |
+| `DISABLE_PUBLIC_ADMIN_REGISTER` | `true` after your first admin account exists |
+
 ---
 
 ## Deployment

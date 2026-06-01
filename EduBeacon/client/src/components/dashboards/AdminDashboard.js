@@ -5,6 +5,15 @@ import DataPopulator from '../DataPopulator';
 const HOURS = [9, 10, 11, 12, 13, 14, 15, 16]; // 9am - 5pm
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
+const showDataPopulator =
+  process.env.NODE_ENV === 'development' ||
+  process.env.REACT_APP_SHOW_DATA_POPULATOR === 'true';
+
+const adminTabs = [
+  { id: 'dashboard', label: 'Dashboard' },
+  ...(showDataPopulator ? [{ id: 'populate', label: '📊 Sample Data' }] : []),
+];
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -245,10 +254,7 @@ const AdminDashboard = () => {
         <h1 className="text-3xl font-bold text-primary-400">Admin Dashboard</h1>
         <div className="flex items-center space-x-4">
           <div className="flex space-x-1">
-            {[
-              { id: 'dashboard', label: 'Dashboard' },
-              { id: 'populate', label: '📊 Sample Data' }
-            ].map(tab => (
+            {adminTabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -479,7 +485,7 @@ const AdminDashboard = () => {
       )}
 
       {/* Sample Data Population Tab */}
-      {activeTab === 'populate' && (
+      {showDataPopulator && activeTab === 'populate' && (
         <DataPopulator />
       )}
     </div>

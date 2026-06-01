@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
 const connectDB = require('./config/database');
+const { buildCorsOptions } = require('./lib/cors');
+const { isProduction, devLog } = require('./lib/logger');
 
 // Load environment variables (prefer config.env next to this file, fallback to .env)
 const configPath = path.join(__dirname, 'config.env');
@@ -25,11 +27,10 @@ try {
   console.warn('[Startup] Unable to force-load GEMINI_API_KEY from config.env:', e?.message);
 }
 
-// Startup diagnostics
-const geminiPrefix = (process.env.GEMINI_API_KEY || '').slice(0, 6) || 'MISSING';
-console.log('[Startup] GEMINI_API_KEY prefix:', geminiPrefix);
 if (!process.env.GEMINI_API_KEY) {
   console.warn('[Startup] GEMINI_API_KEY is not set. The AI chatbot will be disabled until configured.');
+} else if (!isProduction) {
+  devLog('[Startup] GEMINI_API_KEY configured');
 }
 
 // Connect to database
@@ -37,34 +38,9 @@ connectDB();
 
 const app = express();
 
-// --- CORS Configuration (Permissive) ---
-const corsOptions = {
-  origin: true, // allow all origins
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  credentials: false,
-  optionsSuccessStatus: 204,
-};
-
-// Global CORS headers + fail-safe preflight responder to avoid any 404 on OPTIONS
-app.use((req, res, next) => {
-  const origin = req.headers.origin || '*';
-  res.header('Access-Control-Allow-Origin', origin);
-  res.header('Vary', 'Origin');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  // res.header('Access-Control-Allow-Credentials', 'true'); // only if you use cookies
-
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204);
-  }
-  next();
-});
-
-// Must be before any routes
+const corsOptions = buildCorsOptions();
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // explicit preflight handling
-// --- End of CORS Configuration ---
+app.options('*', cors(corsOptions));
 
 // Middleware
 app.use(express.json());
@@ -78,16 +54,6 @@ app.use('/api/mentor', require('./routes/mentor'));
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ message: 'EduBeacon API is running!' });
-});
-
-// Debug env (temporary)
-app.get('/api/debug/env', (req, res) => {
-  const key = process.env.GEMINI_API_KEY || '';
-  res.json({
-    hasGemini: Boolean(key),
-    geminiPrefix: key ? key.slice(0, 6) : null,
-    nodeEnv: process.env.NODE_ENV || null,
-  });
 });
 
 const PORT = process.env.PORT || 5000;
