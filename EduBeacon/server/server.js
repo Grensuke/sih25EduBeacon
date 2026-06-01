@@ -11,11 +11,9 @@ const { isProduction, devLog } = require('./lib/logger');
 const configPath = path.join(__dirname, 'config.env');
 let result = dotenv.config({ path: configPath, override: true });
 if (result.error) {
-  // Fallback to default .env resolution if config.env not found
   result = dotenv.config({ override: true });
 }
 
-// Force-read GEMINI_API_KEY from config.env to avoid conflicts with other env sources
 try {
   if (fs.existsSync(configPath)) {
     const parsed = dotenv.parse(fs.readFileSync(configPath));
@@ -27,14 +25,24 @@ try {
   console.warn('[Startup] Unable to force-load GEMINI_API_KEY from config.env:', e?.message);
 }
 
+function validateEnv() {
+  const missing = [];
+  if (!process.env.MONGODB_URI) missing.push('MONGODB_URI');
+  if (!process.env.JWT_SECRET) missing.push('JWT_SECRET');
+  if (missing.length) {
+    console.error(`[Startup] Missing required env: ${missing.join(', ')}`);
+    console.error('[Startup] Copy server/.env.example to server/.env and fill in values.');
+    process.exit(1);
+  }
+}
+
+validateEnv();
+
 if (!process.env.GEMINI_API_KEY) {
   console.warn('[Startup] GEMINI_API_KEY is not set. The AI chatbot will be disabled until configured.');
 } else if (!isProduction) {
   devLog('[Startup] GEMINI_API_KEY configured');
 }
-
-// Connect to database
-connectDB();
 
 const app = express();
 
@@ -42,22 +50,41 @@ const corsOptions = buildCorsOptions();
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-// Middleware
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/student', require('./routes/student'));
 app.use('/api/mentor', require('./routes/mentor'));
 
-// Health check
 app.get('/api/health', (req, res) => {
-  res.json({ message: 'EduBeacon API is running!' });
+  const dbReady = require('mongoose').connection.readyState === 1;
+  res.json({
+    message: 'EduBeacon API is running!',
+    db: dbReady ? 'connected' : 'disconnected',
+  });
+});
+
+app.use((err, req, res, next) => {
+  if (err) {
+    console.error('[Server]', err.message || err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+  next();
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('[Startup] Failed to start:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

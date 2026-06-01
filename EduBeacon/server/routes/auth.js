@@ -6,8 +6,10 @@ const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Generate JWT Token
 const generateToken = (id) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not configured');
+  }
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
@@ -102,22 +104,21 @@ router.post('/login', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('[Auth] Login error:', error.message);
+    res.status(500).json({
+      message:
+        process.env.NODE_ENV === 'production'
+          ? 'Server error'
+          : error.message || 'Server error',
+    });
   }
 });
 
 // @route   GET /api/auth/me
 // @desc    Get current user
 // @access  Private
-router.get('/me', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
+router.get('/me', auth, (req, res) => {
+  res.json(req.user);
 });
 
 module.exports = router;
