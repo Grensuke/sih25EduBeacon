@@ -2,6 +2,7 @@ const express = require('express');
 const Timetable = require('../models/Timetable');
 const User = require('../models/User');
 const { auth, mentorAuth } = require('../middleware/auth');
+const RiskAnalysisService = require('../services/RiskAnalysisService');
 
 const router = express.Router();
 
@@ -77,11 +78,15 @@ router.get('/analytics', async (req, res) => {
       organizationId: req.user.organizationId,
       role: 'student',
       mentorId: req.user._id
-    }).select('_id attendancePct riskLevel');
+    }).select('_id name attendanceData academicData riskAnalysis attendancePct riskLevel');
 
     const totalStudents = students.length;
     const attendanceValues = students
-      .map(s => typeof s.attendancePct === 'number' ? s.attendancePct : null)
+      .map(s => {
+        if (s.attendanceData && typeof s.attendanceData.percentage === 'number') return s.attendanceData.percentage;
+        if (typeof s.attendancePct === 'number') return s.attendancePct;
+        return null;
+      })
       .filter(v => v !== null);
     const attendanceRate = attendanceValues.length
       ? Number((attendanceValues.reduce((a, b) => a + b, 0) / attendanceValues.length).toFixed(1))
@@ -89,28 +94,75 @@ router.get('/analytics', async (req, res) => {
 
     const riskCounts = { low: 0, medium: 0, high: 0 };
     students.forEach(s => {
-      if (s.riskLevel === 'low') riskCounts.low++;
-      else if (s.riskLevel === 'medium') riskCounts.medium++;
-      else if (s.riskLevel === 'high') riskCounts.high++;
+      // Ensure riskAnalysis is dynamically calculated
+      s.riskAnalysis = RiskAnalysisService.calculateRiskAnalysis(s) || s.riskAnalysis;
+      
+      const level = s.riskAnalysis?.overallRiskLevel || s.riskLevel || 'low';
+      if (level === 'low') riskCounts.low++;
+      else if (level === 'medium') riskCounts.medium++;
+      else if (level === 'high' || level === 'critical') riskCounts.high++;
     });
 
-    // Minimal weekly trends derived from attendance (synthetic but based on avg)
-    const base = attendanceRate || 75;
-    const weeklyTrends = [
-      { week: 'Week 1', attendance: Math.max(0, Math.min(100, base - 3)), engagement: Math.max(0, Math.min(100, base - 5)) },
-      { week: 'Week 2', attendance: Math.max(0, Math.min(100, base - 1)), engagement: Math.max(0, Math.min(100, base - 3)) },
-      { week: 'Week 3', attendance: Math.max(0, Math.min(100, base + 2)), engagement: Math.max(0, Math.min(100, base + 1)) },
-      { week: 'Week 4', attendance: Math.max(0, Math.min(100, base + 1)), engagement: Math.max(0, Math.min(100, base)) }
-    ];
+    // Calculate Real Weekly Trends
+    const weeklyData = {};
+    students.forEach(s => {
+      if (s.attendanceData?.history) {
+        s.attendanceData.history.forEach(record => {
+          const d = new Date(record.date);
+          if (isNaN(d)) return;
+          const year = d.getFullYear();
+          // Simplified week grouping (Month-Week)
+          const weekNo = Math.ceil(d.getDate() / 7);
+          const month = d.toLocaleString('default', { month: 'short' });
+          const key = `${month} W${weekNo} ${year}`;
+          
+          if (!weeklyData[key]) weeklyData[key] = { present: 0, total: 0 };
+          weeklyData[key].total++;
+          if (record.status === 'present') weeklyData[key].present++;
+        });
+      }
+    });
+
+    let weeklyTrends = Object.keys(weeklyData)
+      .sort((a, b) => new Date(a) - new Date(b))
+      .slice(-4)
+      .map(key => {
+        const w = weeklyData[key];
+        const attendance = w.total > 0 ? Math.round((w.present / w.total) * 100) : 0;
+        return { week: key, attendance, engagement: Math.max(0, attendance - 5) };
+      });
+      
+    if (weeklyTrends.length === 0) {
+      weeklyTrends = [
+        { week: 'No Data', attendance: 0, engagement: 0 }
+      ];
+    }
+
+    // Build Recent Activity Feed
+    const recentActivity = [];
+    students.forEach(s => {
+      if (s.riskAnalysis?.alertsGenerated) {
+        s.riskAnalysis.alertsGenerated.forEach(alert => {
+          recentActivity.push({
+            id: alert._id,
+            text: `Risk Alert: ${alert.message}`,
+            date: alert.date,
+            type: 'alert',
+            studentName: s.name
+          });
+        });
+      }
+    });
+    recentActivity.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     res.json({
       totalStudents,
-      activeStudents: totalStudents, // refine if you track active
+      activeStudents: totalStudents,
       atRiskStudents: riskCounts.high,
       attendanceRate,
       riskCounts,
       weeklyTrends,
-      recentActivity: []
+      recentActivity: recentActivity.slice(0, 5)
     });
   } catch (error) {
     console.error(error);
@@ -179,7 +231,7 @@ router.get('/students-overview', async (req, res) => {
 
     // Calculate risk analysis for each student
     const studentsWithAnalysis = students.map(student => {
-      student.calculateRiskAnalysis();
+      student.riskAnalysis = RiskAnalysisService.calculateRiskAnalysis(student) || student.riskAnalysis;
       return student;
     });
 
@@ -207,7 +259,7 @@ router.get('/student-profile/:id', async (req, res) => {
     }
 
     // Update risk analysis
-    student.calculateRiskAnalysis();
+    student.riskAnalysis = RiskAnalysisService.calculateRiskAnalysis(student) || student.riskAnalysis;
     await student.save();
 
     res.json(student);
@@ -231,7 +283,7 @@ router.get('/high-risk-alerts', async (req, res) => {
     const alerts = [];
     
     students.forEach(student => {
-      student.calculateRiskAnalysis();
+      student.riskAnalysis = RiskAnalysisService.calculateRiskAnalysis(student) || student.riskAnalysis;
       
       if (student.riskAnalysis?.alertsGenerated?.length > 0) {
         student.riskAnalysis.alertsGenerated.forEach(alert => {

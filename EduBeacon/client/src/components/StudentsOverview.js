@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 import StudentProfile from './StudentProfile';
+import NumberInput from './NumberInput';
 
 const StudentsOverview = () => {
   const [students, setStudents] = useState([]);
@@ -241,23 +242,19 @@ const StudentsOverview = () => {
           </div>
           <div>
             <label className="block text-slate-200 text-sm mb-2">Attendance &lt;</label>
-            <input
-              type="number"
-              placeholder="75"
+            <NumberInput
               value={filters.attendanceThreshold}
               onChange={(e) => setFilters({...filters, attendanceThreshold: Number(e.target.value)})}
-              className="input-field"
+              placeholder="75"
             />
           </div>
           <div>
             <label className="block text-slate-200 text-sm mb-2">GPA &lt;</label>
-            <input
-              type="number"
-              step="0.1"
-              placeholder="2.5"
+            <NumberInput
               value={filters.academicThreshold}
               onChange={(e) => setFilters({...filters, academicThreshold: Number(e.target.value)})}
-              className="input-field"
+              step={0.1}
+              placeholder="2.5"
             />
           </div>
           <div>

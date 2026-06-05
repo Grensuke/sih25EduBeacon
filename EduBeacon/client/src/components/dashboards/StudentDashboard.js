@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BookOpen, ClipboardList, MessageSquare } from 'lucide-react';
 import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import NumberInput from '../NumberInput';
 
 const StudentDashboard = () => {
   const [timetable, setTimetable] = useState({ events: [] });
@@ -243,15 +245,15 @@ const StudentDashboard = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Mood (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.mood} onChange={(e) => setWb({ ...wb, mood: Number(e.target.value) })} className="input-field" />
+                  <NumberInput min={1} max={5} value={wb.mood} onChange={(e) => setWb({ ...wb, mood: Number(e.target.value) })} />
                 </div>
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Stress (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.stress} onChange={(e) => setWb({ ...wb, stress: Number(e.target.value) })} className="input-field" />
+                  <NumberInput min={1} max={5} value={wb.stress} onChange={(e) => setWb({ ...wb, stress: Number(e.target.value) })} />
                 </div>
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Sleep (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.sleep} onChange={(e) => setWb({ ...wb, sleep: Number(e.target.value) })} className="input-field" />
+                  <NumberInput min={1} max={5} value={wb.sleep} onChange={(e) => setWb({ ...wb, sleep: Number(e.target.value) })} />
                 </div>
               </div>
               <div>

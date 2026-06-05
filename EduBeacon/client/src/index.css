@@ -6,6 +6,7 @@
   html {
     font-family: 'Urbanist', system-ui, sans-serif;
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -244,6 +245,16 @@
     padding: 8px;
   }
 
+  /* Custom utility to hide default spinners for custom NumberInput */
+  .number-input-hide-spinners::-webkit-inner-spin-button,
+  .number-input-hide-spinners::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .number-input-hide-spinners {
+    -moz-appearance: textfield;
+  }
+
   .glass-effect {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.25) 0%, rgba(51, 116, 253, 0.15) 50%, rgba(51, 116, 253, 0.3) 100%);
 
@@ -383,5 +394,45 @@
 
   .skip-link {
     @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] btn-primary;
+  }
+
+  /* Custom Select Dropdown Arrow */
+  select.input-field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+
+  /* Global Recharts Tooltip Styling */
+  .recharts-tooltip-wrapper .recharts-default-tooltip {
+    background: rgba(15, 23, 42, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  }
+  .recharts-tooltip-wrapper .recharts-tooltip-item {
+    color: #f1f5f9 !important;
+  }
+
+  /* Custom Webkit Scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(51, 116, 253, 0.3);
+    border-radius: 5px;
+    border: 2px solid rgba(15, 23, 42, 0.5);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(51, 116, 253, 0.6);
   }
 }

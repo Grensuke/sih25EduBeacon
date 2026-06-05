@@ -94,10 +94,10 @@ const StudentProfile = ({ studentId, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/70 z-50 overflow-y-auto">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 overflow-y-auto">
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="glass-effect rounded-xl shadow-2xl">
+          <div className="glass-effect bg-slate-900/80 rounded-xl shadow-2xl border border-white/10">
             {/* Header */}
             <div className="flex justify-between items-center p-6 border-b border-white/20">
               <div className="flex items-center space-x-4">
@@ -215,12 +215,6 @@ const StudentProfile = ({ studentId, onClose }) => {
                           <XAxis dataKey="day" stroke="rgb(51,116,253)" />
                           <YAxis domain={[0, 1]} stroke="rgb(51,116,253)" />
                           <Tooltip 
-                            contentStyle={{ 
-                              backgroundColor: 'rgba(51,116,253,0.9)', 
-                              border: 'none', 
-                              borderRadius: '8px', 
-                              color: 'white' 
-                            }}
                             formatter={(value) => [
                               value === 1 ? 'Present' : value === 0.5 ? 'Late' : 'Absent',
                               'Status'
