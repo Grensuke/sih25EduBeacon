@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 import StudentProfile from './StudentProfile';
 
@@ -151,21 +152,21 @@ const StudentsOverview = () => {
     <div className="space-y-6 p-6">
       {/* Header with Alerts */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-[rgb(51,116,253)]">Students Overview</h1>
+        <h1 className="text-3xl font-bold text-slate-200">Students Overview</h1>
         <div className="flex items-center space-x-4">
           <button
             onClick={() => setShowAlerts(!showAlerts)}
-            className={`btn-primary relative ${alerts.length > 0 ? 'animate-pulse' : ''}`}
+            className={`btn-primary relative flex items-center gap-2 ${alerts.length > 0 ? 'animate-pulse' : ''}`}
           >
-            🚨 Alerts
+            <AlertTriangle className="w-5 h-5 text-red-400" /> Alerts
             {alerts.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
                 {alerts.length}
               </span>
             )}
           </button>
-          <button onClick={fetchStudentsData} className="btn-secondary">
-            🔄 Refresh
+          <button onClick={fetchStudentsData} className="btn-secondary flex items-center gap-2">
+            <RefreshCw className="w-5 h-5" /> Refresh
           </button>
         </div>
       </div>
@@ -173,7 +174,9 @@ const StudentsOverview = () => {
       {/* High-Risk Alerts Panel */}
       {showAlerts && alerts.length > 0 && (
         <div className="glass-effect rounded-xl p-6 border-l-4 border-red-400">
-          <h2 className="text-xl font-bold text-red-400 mb-4">🚨 High-Risk Alerts</h2>
+          <h2 className="text-xl font-bold text-red-400 mb-4 flex items-center gap-2">
+            <AlertTriangle className="w-6 h-6" /> High-Risk Alerts
+          </h2>
           <div className="space-y-3 max-h-64 overflow-y-auto">
             {alerts.map((alert, index) => (
               <div key={index} className={`p-4 rounded-lg border ${getRiskColor(alert.severity)}`}>
@@ -210,10 +213,10 @@ const StudentsOverview = () => {
 
       {/* Filters */}
       <div className="glass-effect rounded-xl p-6">
-        <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Filters & Search</h2>
+        <h2 className="text-xl font-bold text-slate-200 mb-4">Filters & Search</h2>
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
           <div>
-            <label className="block text-[rgb(51,116,253)] text-sm mb-2">Search</label>
+            <label className="block text-slate-200 text-sm mb-2">Search</label>
             <input
               type="text"
               placeholder="Name, Roll No, Email..."
@@ -223,7 +226,7 @@ const StudentsOverview = () => {
             />
           </div>
           <div>
-            <label className="block text-[rgb(51,116,253)] text-sm mb-2">Risk Level</label>
+            <label className="block text-slate-200 text-sm mb-2">Risk Level</label>
             <select
               value={filters.riskLevel}
               onChange={(e) => setFilters({...filters, riskLevel: e.target.value})}
@@ -237,7 +240,7 @@ const StudentsOverview = () => {
             </select>
           </div>
           <div>
-            <label className="block text-[rgb(51,116,253)] text-sm mb-2">Attendance &lt;</label>
+            <label className="block text-slate-200 text-sm mb-2">Attendance &lt;</label>
             <input
               type="number"
               placeholder="75"
@@ -247,7 +250,7 @@ const StudentsOverview = () => {
             />
           </div>
           <div>
-            <label className="block text-[rgb(51,116,253)] text-sm mb-2">GPA &lt;</label>
+            <label className="block text-slate-200 text-sm mb-2">GPA &lt;</label>
             <input
               type="number"
               step="0.1"
@@ -258,7 +261,7 @@ const StudentsOverview = () => {
             />
           </div>
           <div>
-            <label className="block text-[rgb(51,116,253)] text-sm mb-2">Fee Status</label>
+            <label className="block text-slate-200 text-sm mb-2">Fee Status</label>
             <select
               value={filters.feeStatus}
               onChange={(e) => setFilters({...filters, feeStatus: e.target.value})}
@@ -291,51 +294,51 @@ const StudentsOverview = () => {
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
         <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-[rgb(51,116,253)]">{filteredStudents.length}</div>
-          <div className="text-[rgb(51,116,253)]">Total Students</div>
+          <div className="text-2xl font-bold text-slate-200">{filteredStudents.length}</div>
+          <div className="text-slate-200">Total Students</div>
         </div>
         <div className="stats-card rounded-xl p-6">
           <div className="text-2xl font-bold text-red-400">
             {filteredStudents.filter(s => s.riskAnalysis?.overallRiskLevel === 'critical').length}
           </div>
-          <div className="text-[rgb(51,116,253)]">Critical Risk</div>
+          <div className="text-slate-200">Critical Risk</div>
         </div>
         <div className="stats-card rounded-xl p-6">
           <div className="text-2xl font-bold text-red-400">
             {filteredStudents.filter(s => s.riskAnalysis?.overallRiskLevel === 'high').length}
           </div>
-          <div className="text-[rgb(51,116,253)]">High Risk</div>
+          <div className="text-slate-200">High Risk</div>
         </div>
         <div className="stats-card rounded-xl p-6">
           <div className="text-2xl font-bold text-amber-400">
             {filteredStudents.filter(s => (s.attendanceData?.percentage || 0) < 75).length}
           </div>
-          <div className="text-[rgb(51,116,253)]">Low Attendance</div>
+          <div className="text-slate-200">Low Attendance</div>
         </div>
         <div className="stats-card rounded-xl p-6">
           <div className="text-2xl font-bold text-red-400">
             {filteredStudents.filter(s => s.feeData?.paymentStatus === 'overdue').length}
           </div>
-          <div className="text-[rgb(51,116,253)]">Fee Overdue</div>
+          <div className="text-slate-200">Fee Overdue</div>
         </div>
       </div>
 
       {/* Students Comparative Table */}
       <div className="glass-effect rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">
+        <h2 className="text-xl font-bold text-slate-200 mb-4">
           Students Comparative Analysis ({filteredStudents.length} students)
         </h2>
         <div className="overflow-x-auto">
           <table className="liquid-glass-table min-w-full">
             <thead>
               <tr>
-                <th className="px-4 py-3 text-left text-[rgb(51,116,253)] font-medium">Student</th>
-                <th className="px-4 py-3 text-left text-[rgb(51,116,253)] font-medium">Roll No</th>
-                <th className="px-4 py-3 text-left text-[rgb(51,116,253)] font-medium">Attendance</th>
-                <th className="px-4 py-3 text-left text-[rgb(51,116,253)] font-medium">Academic (GPA)</th>
-                <th className="px-4 py-3 text-left text-[rgb(51,116,253)] font-medium">Fee Status</th>
-                <th className="px-4 py-3 text-left text-[rgb(51,116,253)] font-medium">Overall Risk</th>
-                <th className="px-4 py-3 text-left text-[rgb(51,116,253)] font-medium">Actions</th>
+                <th className="px-4 py-3 text-left text-slate-200 font-medium">Student</th>
+                <th className="px-4 py-3 text-left text-slate-200 font-medium">Roll No</th>
+                <th className="px-4 py-3 text-left text-slate-200 font-medium">Attendance</th>
+                <th className="px-4 py-3 text-left text-slate-200 font-medium">Academic (GPA)</th>
+                <th className="px-4 py-3 text-left text-slate-200 font-medium">Fee Status</th>
+                <th className="px-4 py-3 text-left text-slate-200 font-medium">Overall Risk</th>
+                <th className="px-4 py-3 text-left text-slate-200 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/20">
@@ -357,13 +360,13 @@ const StudentsOverview = () => {
                           </span>
                         </div>
                         <div>
-                          <div className="font-medium text-[rgb(51,116,253)]">{student.name}</div>
-                          <div className="text-sm text-[rgb(51,116,253)]">{student.email}</div>
+                          <div className="font-medium text-slate-200">{student.name}</div>
+                          <div className="text-sm text-slate-200">{student.email}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-4">
-                      <span className="font-mono text-[rgb(51,116,253)]">
+                      <span className="font-mono text-slate-200">
                         {student.rollNumber || 'N/A'}
                       </span>
                     </td>
@@ -374,7 +377,7 @@ const StudentsOverview = () => {
                         </div>
                         <div className="text-xs">
                           <div className={attendanceStatus.color}>{attendanceStatus.label}</div>
-                          <div className="text-[rgb(51,116,253)]">
+                          <div className="text-slate-200">
                             {student.attendanceData?.attendedClasses || 0}/{student.attendanceData?.totalClasses || 0}
                           </div>
                         </div>
@@ -387,7 +390,7 @@ const StudentsOverview = () => {
                         </div>
                         <div className="text-xs">
                           <div className={academicStatus.color}>{academicStatus.label}</div>
-                          <div className="text-[rgb(51,116,253)]">
+                          <div className="text-slate-200">
                             Grade: {student.academicData?.overallGrade || 'N/A'}
                           </div>
                         </div>
@@ -398,7 +401,7 @@ const StudentsOverview = () => {
                         <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getPaymentStatusColor(student.feeData?.paymentStatus)}`}>
                           {student.feeData?.paymentStatus?.toUpperCase() || 'PENDING'}
                         </span>
-                        <div className="text-xs text-[rgb(51,116,253)]">
+                        <div className="text-xs text-slate-200">
                           ₹{student.feeData?.pendingAmount || 0} pending
                         </div>
                       </div>
@@ -409,7 +412,7 @@ const StudentsOverview = () => {
                           {student.riskAnalysis?.overallRiskLevel?.toUpperCase() || 'LOW'}
                         </span>
                         {student.riskAnalysis?.riskFactors?.length > 0 && (
-                          <div className="text-xs text-[rgb(51,116,253)]">
+                          <div className="text-xs text-slate-200">
                             {student.riskAnalysis.riskFactors.length} factors
                           </div>
                         )}

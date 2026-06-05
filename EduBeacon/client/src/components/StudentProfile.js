@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { AlertTriangle } from 'lucide-react';
 
 const StudentProfile = ({ studentId, onClose }) => {
   const [student, setStudent] = useState(null);
@@ -75,7 +76,7 @@ const StudentProfile = ({ studentId, onClose }) => {
       <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
         <div className="glass-effect rounded-xl p-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[rgb(51,116,253)] mx-auto"></div>
-          <p className="text-[rgb(51,116,253)] mt-4 text-center">Loading student profile...</p>
+          <p className="text-slate-200 mt-4 text-center">Loading student profile...</p>
         </div>
       </div>
     );
@@ -85,7 +86,7 @@ const StudentProfile = ({ studentId, onClose }) => {
     return (
       <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
         <div className="glass-effect rounded-xl p-8">
-          <p className="text-[rgb(51,116,253)] text-center">Student not found</p>
+          <p className="text-slate-200 text-center">Student not found</p>
           <button onClick={onClose} className="btn-primary mt-4">Close</button>
         </div>
       </div>
@@ -106,8 +107,8 @@ const StudentProfile = ({ studentId, onClose }) => {
                   </span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-[rgb(51,116,253)]">{student.name}</h1>
-                  <p className="text-[rgb(51,116,253)]">Roll No: {student.rollNumber || 'N/A'} • {student.email}</p>
+                  <h1 className="text-2xl font-bold text-slate-200">{student.name}</h1>
+                  <p className="text-slate-200">Roll No: {student.rollNumber || 'N/A'} • {student.email}</p>
                 </div>
               </div>
               <button onClick={onClose} className="btn-secondary">
@@ -119,7 +120,7 @@ const StudentProfile = ({ studentId, onClose }) => {
             {student.riskAnalysis?.overallRiskLevel !== 'low' && (
               <div className={`p-4 m-6 rounded-lg border ${getRiskColor(student.riskAnalysis.overallRiskLevel)}`}>
                 <div className="flex items-center space-x-2">
-                  <span className="text-xl">⚠️</span>
+                  <AlertTriangle className="w-6 h-6" />
                   <div>
                     <h3 className="font-bold">
                       {student.riskAnalysis.overallRiskLevel.toUpperCase()} RISK ALERT
@@ -146,8 +147,8 @@ const StudentProfile = ({ studentId, onClose }) => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all ${
                     activeTab === tab.id
-                      ? 'bg-[rgb(51,116,253)]/20 text-[rgb(51,116,253)] border border-[rgb(51,116,253)]/30'
-                      : 'text-[rgb(51,116,253)]/70 hover:text-[rgb(51,116,253)] hover:bg-[rgb(51,116,253)]/10'
+                      ? 'bg-[rgb(51,116,253)]/20 text-slate-200 border border-[rgb(51,116,253)]/30'
+                      : 'text-slate-200/70 hover:text-slate-200 hover:bg-[rgb(51,116,253)]/10'
                   }`}
                 >
                   {tab.label}
@@ -161,11 +162,11 @@ const StudentProfile = ({ studentId, onClose }) => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Attendance Summary */}
                   <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                    <h3 className="text-lg font-bold text-[rgb(51,116,253)] mb-2">Attendance</h3>
-                    <div className="text-3xl font-bold text-[rgb(51,116,253)] mb-1">
+                    <h3 className="text-lg font-bold text-slate-200 mb-2">Attendance</h3>
+                    <div className="text-3xl font-bold text-slate-200 mb-1">
                       {student.attendanceData?.percentage || 0}%
                     </div>
-                    <p className="text-[rgb(51,116,253)] text-sm">
+                    <p className="text-slate-200 text-sm">
                       {student.attendanceData?.attendedClasses || 0} / {student.attendanceData?.totalClasses || 0} classes
                     </p>
                     <div className={`mt-2 px-2 py-1 rounded-full text-xs font-medium border ${getRiskColor(student.riskAnalysis?.attendanceRisk)}`}>
@@ -175,11 +176,11 @@ const StudentProfile = ({ studentId, onClose }) => {
 
                   {/* Academic Summary */}
                   <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                    <h3 className="text-lg font-bold text-[rgb(51,116,253)] mb-2">Academic</h3>
-                    <div className="text-3xl font-bold text-[rgb(51,116,253)] mb-1">
+                    <h3 className="text-lg font-bold text-slate-200 mb-2">Academic</h3>
+                    <div className="text-3xl font-bold text-slate-200 mb-1">
                       {student.academicData?.gpa?.toFixed(2) || '0.00'}
                     </div>
-                    <p className="text-[rgb(51,116,253)] text-sm">
+                    <p className="text-slate-200 text-sm">
                       GPA • Grade: {student.academicData?.overallGrade || 'N/A'}
                     </p>
                     <div className={`mt-2 px-2 py-1 rounded-full text-xs font-medium border ${getRiskColor(student.riskAnalysis?.academicRisk)}`}>
@@ -189,11 +190,11 @@ const StudentProfile = ({ studentId, onClose }) => {
 
                   {/* Financial Summary */}
                   <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                    <h3 className="text-lg font-bold text-[rgb(51,116,253)] mb-2">Fee Status</h3>
-                    <div className="text-3xl font-bold text-[rgb(51,116,253)] mb-1">
+                    <h3 className="text-lg font-bold text-slate-200 mb-2">Fee Status</h3>
+                    <div className="text-3xl font-bold text-slate-200 mb-1">
                       ₹{student.feeData?.pendingAmount || 0}
                     </div>
-                    <p className="text-[rgb(51,116,253)] text-sm">
+                    <p className="text-slate-200 text-sm">
                       Pending of ₹{student.feeData?.totalFeeAmount || 0}
                     </p>
                     <div className={`mt-2 px-2 py-1 rounded-full text-xs font-medium border ${getPaymentStatusColor(student.feeData?.paymentStatus)}`}>
@@ -206,7 +207,7 @@ const StudentProfile = ({ studentId, onClose }) => {
               {activeTab === 'attendance' && (
                 <div className="space-y-6">
                   <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                    <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Attendance History (Last 30 Days)</h3>
+                    <h3 className="text-xl font-bold text-slate-200 mb-4">Attendance History (Last 30 Days)</h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={prepareAttendanceData()}>
@@ -238,20 +239,20 @@ const StudentProfile = ({ studentId, onClose }) => {
                   </div>
 
                   <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                    <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Recent Attendance Records</h3>
+                    <h3 className="text-xl font-bold text-slate-200 mb-4">Recent Attendance Records</h3>
                     <div className="overflow-x-auto">
                       <table className="liquid-glass-table min-w-full">
                         <thead>
                           <tr>
-                            <th className="px-4 py-2 text-left text-[rgb(51,116,253)]">Date</th>
-                            <th className="px-4 py-2 text-left text-[rgb(51,116,253)]">Status</th>
-                            <th className="px-4 py-2 text-left text-[rgb(51,116,253)]">Subject</th>
+                            <th className="px-4 py-2 text-left text-slate-200">Date</th>
+                            <th className="px-4 py-2 text-left text-slate-200">Status</th>
+                            <th className="px-4 py-2 text-left text-slate-200">Subject</th>
                           </tr>
                         </thead>
                         <tbody>
                           {student.attendanceData?.history?.slice(-10).reverse().map((record, index) => (
                             <tr key={index} className="hover:bg-white/5">
-                              <td className="px-4 py-2 text-[rgb(51,116,253)]">
+                              <td className="px-4 py-2 text-slate-200">
                                 {new Date(record.date).toLocaleDateString()}
                               </td>
                               <td className="px-4 py-2">
@@ -263,7 +264,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                                   {record.status.toUpperCase()}
                                 </span>
                               </td>
-                              <td className="px-4 py-2 text-[rgb(51,116,253)]">{record.subject || 'General'}</td>
+                              <td className="px-4 py-2 text-slate-200">{record.subject || 'General'}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -277,7 +278,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                      <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Subject-wise Performance</h3>
+                      <h3 className="text-xl font-bold text-slate-200 mb-4">Subject-wise Performance</h3>
                       <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
@@ -300,20 +301,20 @@ const StudentProfile = ({ studentId, onClose }) => {
                     </div>
 
                     <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                      <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Recent Test Results</h3>
+                      <h3 className="text-xl font-bold text-slate-200 mb-4">Recent Test Results</h3>
                       <div className="space-y-3 max-h-64 overflow-y-auto">
                         {student.academicData?.testResults?.slice(-5).reverse().map((test, index) => (
                           <div key={index} className="p-3 bg-white/5 rounded-lg">
                             <div className="flex justify-between items-center">
                               <div>
-                                <h4 className="font-medium text-[rgb(51,116,253)]">{test.testName}</h4>
-                                <p className="text-sm text-[rgb(51,116,253)]">{test.subject}</p>
+                                <h4 className="font-medium text-slate-200">{test.testName}</h4>
+                                <p className="text-sm text-slate-200">{test.subject}</p>
                               </div>
                               <div className="text-right">
-                                <div className="text-lg font-bold text-[rgb(51,116,253)]">
+                                <div className="text-lg font-bold text-slate-200">
                                   {test.obtainedMarks}/{test.maxMarks}
                                 </div>
-                                <div className="text-sm text-[rgb(51,116,253)]">{test.percentage}%</div>
+                                <div className="text-sm text-slate-200">{test.percentage}%</div>
                               </div>
                             </div>
                           </div>
@@ -328,23 +329,23 @@ const StudentProfile = ({ studentId, onClose }) => {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                      <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Fee Summary</h3>
+                      <h3 className="text-xl font-bold text-slate-200 mb-4">Fee Summary</h3>
                       <div className="space-y-4">
                         <div className="flex justify-between">
-                          <span className="text-[rgb(51,116,253)]">Total Fee:</span>
-                          <span className="font-bold text-[rgb(51,116,253)]">₹{student.feeData?.totalFeeAmount || 0}</span>
+                          <span className="text-slate-200">Total Fee:</span>
+                          <span className="font-bold text-slate-200">₹{student.feeData?.totalFeeAmount || 0}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[rgb(51,116,253)]">Paid Amount:</span>
+                          <span className="text-slate-200">Paid Amount:</span>
                           <span className="font-bold text-emerald-400">₹{student.feeData?.paidAmount || 0}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[rgb(51,116,253)]">Pending Amount:</span>
+                          <span className="text-slate-200">Pending Amount:</span>
                           <span className="font-bold text-red-400">₹{student.feeData?.pendingAmount || 0}</span>
                         </div>
                         <div className="pt-2 border-t border-white/20">
                           <div className="flex justify-between items-center">
-                            <span className="text-[rgb(51,116,253)]">Status:</span>
+                            <span className="text-slate-200">Status:</span>
                             <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getPaymentStatusColor(student.feeData?.paymentStatus)}`}>
                               {student.feeData?.paymentStatus?.toUpperCase() || 'PENDING'}
                             </span>
@@ -354,20 +355,20 @@ const StudentProfile = ({ studentId, onClose }) => {
                     </div>
 
                     <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                      <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Payment History</h3>
+                      <h3 className="text-xl font-bold text-slate-200 mb-4">Payment History</h3>
                       <div className="space-y-3 max-h-64 overflow-y-auto">
                         {student.feeData?.paymentHistory?.slice(-5).reverse().map((payment, index) => (
                           <div key={index} className="p-3 bg-white/5 rounded-lg">
                             <div className="flex justify-between items-center">
                               <div>
-                                <div className="font-medium text-[rgb(51,116,253)]">₹{payment.amount}</div>
-                                <div className="text-sm text-[rgb(51,116,253)]">
+                                <div className="font-medium text-slate-200">₹{payment.amount}</div>
+                                <div className="text-sm text-slate-200">
                                   {new Date(payment.paymentDate).toLocaleDateString()}
                                 </div>
                               </div>
                               <div className="text-right">
-                                <div className="text-sm text-[rgb(51,116,253)]">{payment.paymentMethod}</div>
-                                <div className="text-xs text-[rgb(51,116,253)]">#{payment.receiptNumber}</div>
+                                <div className="text-sm text-slate-200">{payment.paymentMethod}</div>
+                                <div className="text-xs text-slate-200">#{payment.receiptNumber}</div>
                               </div>
                             </div>
                           </div>
@@ -381,7 +382,7 @@ const StudentProfile = ({ studentId, onClose }) => {
               {activeTab === 'alerts' && (
                 <div className="space-y-4">
                   <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                    <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Risk Analysis & Alerts</h3>
+                    <h3 className="text-xl font-bold text-slate-200 mb-4">Risk Analysis & Alerts</h3>
                     
                     {student.riskAnalysis?.alertsGenerated?.length > 0 ? (
                       <div className="space-y-3">
@@ -405,7 +406,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-[rgb(51,116,253)] text-center py-8">No alerts generated</p>
+                      <p className="text-slate-200 text-center py-8">No alerts generated</p>
                     )}
                   </div>
                 </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Database, Loader2, CheckCircle2, XCircle, Lightbulb } from 'lucide-react';
 import axios from 'axios';
 
 const DataPopulator = () => {
@@ -173,23 +174,23 @@ const DataPopulator = () => {
 
         try {
           // Step 1: Create the student user
-          const createResponse = await axios.post('/api/admin/create-user', {
+          const createResponse = await axios.post('/api/admin/users', {
             name: student.name,
             email: student.email,
             role: 'student',
             password: student.password
           });
 
-          if (createResponse.data.success) {
-            const studentId = createResponse.data.user._id;
-            setProgress(`✅ Created user: ${student.name}`);
+          if (createResponse.data && createResponse.data.user) {
+            const studentId = createResponse.data.user.id;
+            setProgress(`Created user: ${student.name}`);
 
             // Step 2: Update roll number directly (since it's not in the create API)
             try {
               await axios.put(`/api/admin/update-student/${studentId}`, {
                 rollNumber: student.rollNumber
               });
-              setProgress(`✅ Updated roll number for: ${student.name}`);
+              setProgress(`Updated roll number for: ${student.name}`);
             } catch (error) {
               console.warn(`Could not update roll number for ${student.name}:`, error.response?.data?.message);
             }
@@ -206,7 +207,7 @@ const DataPopulator = () => {
                 console.warn(`Could not add attendance for ${student.name}:`, error.response?.data?.message);
               }
             }
-            setProgress(`✅ Added attendance data for: ${student.name}`);
+            setProgress(`Added attendance data for: ${student.name}`);
 
             // Step 4: Add test results
             for (const test of student.academicData.testResults) {
@@ -216,14 +217,14 @@ const DataPopulator = () => {
                 console.warn(`Could not add test result for ${student.name}:`, error.response?.data?.message);
               }
             }
-            setProgress(`✅ Added academic data for: ${student.name}`);
+            setProgress(`Added academic data for: ${student.name}`);
 
             // Step 5: Add fee data
             try {
               await axios.post(`/api/mentor/update-fee-status/${studentId}`, {
                 paymentData: student.feeData
               });
-              setProgress(`✅ Added fee data for: ${student.name}`);
+              setProgress(`Added fee data for: ${student.name}`);
             } catch (error) {
               console.warn(`Could not add fee data for ${student.name}:`, error.response?.data?.message);
             }
@@ -251,11 +252,11 @@ const DataPopulator = () => {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
 
-      setProgress('✅ Data population completed!');
+      setProgress('Data population completed!');
 
     } catch (error) {
       console.error('Population error:', error);
-      setProgress('❌ Error during population');
+      setProgress('Error during population');
     } finally {
       setIsPopulating(false);
     }
@@ -263,21 +264,21 @@ const DataPopulator = () => {
 
   return (
     <div className="glass-effect rounded-xl p-6 m-6">
-      <h2 className="text-2xl font-bold text-primary-400 mb-4">📊 Sample Data Populator</h2>
+      <h2 className="text-2xl font-bold text-primary-400 mb-4 flex items-center gap-2"><Database className="w-6 h-6" /> Sample Data Populator</h2>
       <p className="text-primary-300 mb-6">
         This tool will create 4 sample students with realistic attendance, academic, and fee data to test the new consolidated features.
       </p>
 
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-[rgb(51,116,253)] mb-2">Sample Students:</h3>
+        <h3 className="text-lg font-semibold text-slate-200 mb-2">Sample Students:</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {sampleStudents.map((student, index) => (
             <div key={index} className="bg-white/5 rounded-lg p-4">
-              <h4 className="font-medium text-[rgb(51,116,253)]">{student.name}</h4>
-              <p className="text-sm text-[rgb(51,116,253)]">Roll: {student.rollNumber}</p>
-              <p className="text-sm text-[rgb(51,116,253)]">Attendance: {student.attendanceData.percentage}%</p>
-              <p className="text-sm text-[rgb(51,116,253)]">GPA: {student.academicData.gpa}</p>
-              <p className="text-sm text-[rgb(51,116,253)]">Fee Status: {student.feeData.paymentStatus}</p>
+              <h4 className="font-medium text-slate-200">{student.name}</h4>
+              <p className="text-sm text-slate-200">Roll: {student.rollNumber}</p>
+              <p className="text-sm text-slate-200">Attendance: {student.attendanceData.percentage}%</p>
+              <p className="text-sm text-slate-200">GPA: {student.academicData.gpa}</p>
+              <p className="text-sm text-slate-200">Fee Status: {student.feeData.paymentStatus}</p>
             </div>
           ))}
         </div>
@@ -289,7 +290,7 @@ const DataPopulator = () => {
           disabled={isPopulating}
           className={`btn-primary ${isPopulating ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          {isPopulating ? '⏳ Populating...' : '🚀 Populate Sample Data'}
+          {isPopulating ? <span className="flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Populating...</span> : <span className="flex items-center gap-2"><Database className="w-5 h-5" /> Populate Sample Data</span>}
         </button>
       </div>
 
@@ -310,7 +311,7 @@ const DataPopulator = () => {
             }`}>
               <div className="flex items-center gap-2">
                 <span className={result.status === 'success' ? 'text-emerald-400' : 'text-red-400'}>
-                  {result.status === 'success' ? '✅' : '❌'}
+                  {result.status === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                 </span>
                 <span className="font-medium text-primary-400">{result.name}</span>
                 <span className={result.status === 'success' ? 'text-emerald-400' : 'text-red-400'}>
@@ -323,7 +324,7 @@ const DataPopulator = () => {
       )}
 
       <div className="mt-6 p-4 bg-blue-400/10 border border-blue-400/30 rounded-lg">
-        <h4 className="font-semibold text-primary-400 mb-2">💡 Instructions:</h4>
+        <h4 className="font-semibold text-primary-400 mb-2 flex items-center gap-2"><Lightbulb className="w-5 h-5" /> Instructions:</h4>
         <ol className="list-decimal list-inside space-y-1 text-sm text-primary-300">
           <li>Make sure you're logged in as an Admin</li>
           <li>Click "Populate Sample Data" to create the test students</li>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { BookOpen, ClipboardList, MessageSquare } from 'lucide-react';
 import axios from 'axios';
 
 const StudentDashboard = () => {
@@ -270,19 +271,19 @@ const StudentDashboard = () => {
       <div className="glass-effect rounded-xl shadow-lg p-6">
         <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button type="button" className="btn-tile bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-            <div className="text-2xl mb-2">📚</div>
-            <h3 className="font-semibold text-white">Study Resources</h3>
+          <button className="btn-tile glass-effect">
+            <BookOpen className="w-8 h-8 text-blue-400 mb-2 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
+            <div className="font-semibold text-primary-300">Study Materials</div>
             <p className="text-sm text-white/80">Access learning materials</p>
           </button>
-          <button type="button" className="btn-tile bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-            <div className="text-2xl mb-2">📝</div>
-            <h3 className="font-semibold text-white">Submit Assignment</h3>
+          <button className="btn-tile glass-effect">
+            <ClipboardList className="w-8 h-8 text-blue-400 mb-2 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
+            <div className="font-semibold text-primary-300">Assignments</div>
             <p className="text-sm text-white/80">Upload your work</p>
           </button>
-          <button type="button" className="btn-tile bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-            <div className="text-2xl mb-2">📞</div>
-            <h3 className="font-semibold text-white">Contact Mentor</h3>
+          <button className="btn-tile glass-effect">
+            <MessageSquare className="w-8 h-8 text-blue-400 mb-2 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
+            <div className="font-semibold text-primary-300">Contact Mentor</div>
             <p className="text-sm text-white/80">Get help from your mentor</p>
           </button>
         </div>

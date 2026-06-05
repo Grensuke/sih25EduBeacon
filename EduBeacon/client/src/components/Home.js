@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Bot, LineChart, Users } from 'lucide-react';
 
 const Home = () => {
   return (
@@ -53,8 +54,8 @@ const Home = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <article className="card text-primary-400 h-full">
-              <div className="text-4xl mb-4" aria-hidden="true">
-                🤖
+              <div className="mb-4" aria-hidden="true">
+                <Bot className="w-10 h-10 text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-primary-400">AI Counseling</h3>
               <p className="text-slate-200 leading-relaxed">
@@ -62,8 +63,8 @@ const Home = () => {
               </p>
             </article>
             <article className="card text-primary-400 h-full">
-              <div className="text-4xl mb-4" aria-hidden="true">
-                📊
+              <div className="mb-4" aria-hidden="true">
+                <LineChart className="w-10 h-10 text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-primary-400">Analytics Dashboard</h3>
               <p className="text-slate-200 leading-relaxed">
@@ -71,8 +72,8 @@ const Home = () => {
               </p>
             </article>
             <article className="card text-primary-400 h-full md:col-span-2 lg:col-span-1">
-              <div className="text-4xl mb-4" aria-hidden="true">
-                👥
+              <div className="mb-4" aria-hidden="true">
+                <Users className="w-10 h-10 text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-primary-400">Mentor Support</h3>
               <p className="text-slate-200 leading-relaxed">

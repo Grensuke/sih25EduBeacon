@@ -11,7 +11,7 @@ const showDataPopulator =
 
 const adminTabs = [
   { id: 'dashboard', label: 'Dashboard' },
-  ...(showDataPopulator ? [{ id: 'populate', label: '📊 Sample Data' }] : []),
+  ...(showDataPopulator ? [{ id: 'populate', label: 'Sample Data' }] : []),
 ];
 
 const AdminDashboard = () => {
@@ -345,7 +345,7 @@ const AdminDashboard = () => {
         <h2 className="text-xl font-bold text-primary-400 mb-4">Assign Mentor to Student</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
           <div>
-            <label className="block text-[rgb(51,116,253)] text-sm mb-2">Student</label>
+            <label className="block text-slate-200 text-sm mb-2">Student</label>
             <select value={selectedStudentId} onChange={(e) => setSelectedStudentId(e.target.value)} className="input-field">
               <option value="">Select a student</option>
               {students.map(s => (
@@ -366,11 +366,11 @@ const AdminDashboard = () => {
             <button onClick={handleAssignMentor} disabled={!selectedStudentId || !selectedMentorId || assigning} className="btn-primary">
               {assigning ? 'Assigning...' : 'Assign'}
             </button>
-            {assignMsg && <span className="text-[rgb(51,116,253)] text-sm self-center">{assignMsg}</span>}
+            {assignMsg && <span className="text-slate-200 text-sm self-center">{assignMsg}</span>}
           </div>
         </div>
         {selectedStudent && (
-          <p className="text-[rgb(51,116,253)] text-sm mt-3">Current mentor: {selectedStudent.mentorId ? mentors.find(m => m._id === selectedStudent.mentorId)?.name || 'Assigned' : 'None'}</p>
+          <p className="text-slate-200 text-sm mt-3">Current mentor: {selectedStudent.mentorId ? mentors.find(m => m._id === selectedStudent.mentorId)?.name || 'Assigned' : 'None'}</p>
         )}
       </div>
 
@@ -378,12 +378,12 @@ const AdminDashboard = () => {
       <div className="glass-effect rounded-xl shadow-lg p-6">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold text-[rgb(51,116,253)] mb-2">Weekly Timetable Builder</h2>
-            <p className="text-[rgb(51,116,253)] text-sm">Build a weekly schedule (Mon-Fri, 9AM-5PM) for a student.</p>
+            <h2 className="text-xl font-bold text-slate-200 mb-2">Weekly Timetable Builder</h2>
+            <p className="text-slate-200 text-sm">Build a weekly schedule (Mon-Fri, 9AM-5PM) for a student.</p>
           </div>
           <div className="flex gap-3 items-end">
             <div>
-              <label className="block text-[rgb(51,116,253)] text-sm mb-2">Student</label>
+              <label className="block text-slate-200 text-sm mb-2">Student</label>
               <select value={selectedStudentId} onChange={(e) => setSelectedStudentId(e.target.value)} className="input-field">
                 <option value="">Select a student</option>
                 {students.map(s => (
@@ -392,9 +392,9 @@ const AdminDashboard = () => {
               </select>
             </div>
             <div>
-              <label className="block text-[rgb(51,116,253)] text-sm mb-2">Week Start (Mon)</label>
+              <label className="block text-slate-200 text-sm mb-2">Week Start (Mon)</label>
               <input type="date" value={weekStart} onChange={(e) => setWeekStart(e.target.value)} className="input-field" />
-              <p className="text-xs text-[rgb(51,116,253)] mt-1">Week End: {computedWeekEnd}</p>
+              <p className="text-xs text-slate-200 mt-1">Week End: {computedWeekEnd}</p>
             </div>
             <div className="flex gap-2">
               <button onClick={saveTimetable} disabled={!selectedStudentId || savingTT} className="btn-primary">{savingTT ? 'Saving...' : 'Save Timetable'}</button>
