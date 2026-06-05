@@ -4,8 +4,6 @@ const DEFAULT_ORIGINS = [
   'https://sih25-edu-beacon.vercel.app',
 ];
 
-const VERCEL_PREVIEW = /^https:\/\/[\w.-]+\.vercel\.app$/;
-
 function getAllowedOrigins() {
   const origins = [...DEFAULT_ORIGINS];
   const fromEnv = process.env.ALLOWED_ORIGINS;
@@ -26,7 +24,6 @@ function getAllowedOrigins() {
 function isOriginAllowed(origin, allowedOrigins) {
   if (!origin) return true;
   if (allowedOrigins.includes(origin)) return true;
-  if (VERCEL_PREVIEW.test(origin)) return true;
   return false;
 }
 
@@ -45,7 +42,7 @@ function buildCorsOptions() {
     },
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    credentials: false,
+    credentials: true,
     optionsSuccessStatus: 204,
   };
 }

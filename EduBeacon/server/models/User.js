@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const RiskAnalysisService = require('../services/RiskAnalysisService');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -146,6 +147,10 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Strategic indexes for query performance
+userSchema.index({ role: 1, organizationId: 1 });
+userSchema.index({ 'riskAnalysis.overallRiskLevel': 1 });
+
 // Hash password before saving
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
@@ -165,113 +170,7 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Calculate multi-factor risk analysis
-userSchema.methods.calculateRiskAnalysis = function() {
-  if (this.role !== 'student') return;
-  
-  const riskFactors = [];
-  let attendanceRisk = 'low';
-  let academicRisk = 'low';
-  let financialRisk = 'low';
-  
-  // Attendance Risk Analysis
-  const attendancePercentage = this.attendanceData?.percentage || 0;
-  if (attendancePercentage < 60) {
-    attendanceRisk = 'high';
-    riskFactors.push('Critical attendance below 60%');
-  } else if (attendancePercentage < 75) {
-    attendanceRisk = 'medium';
-    riskFactors.push('Low attendance below 75%');
-  }
-  
-  // Academic Risk Analysis
-  const gpa = this.academicData?.gpa || 0;
-  const recentTests = this.academicData?.testResults?.slice(-3) || [];
-  const recentAverage = recentTests.length > 0 
-    ? recentTests.reduce((sum, test) => sum + test.percentage, 0) / recentTests.length 
-    : 0;
-  
-  if (gpa < 2.0 || recentAverage < 50) {
-    academicRisk = 'high';
-    riskFactors.push('Poor academic performance (GPA < 2.0 or recent tests < 50%)');
-  } else if (gpa < 2.5 || recentAverage < 65) {
-    academicRisk = 'medium';
-    riskFactors.push('Declining academic performance');
-  }
-  
-  // Financial Risk Analysis
-  const feeStatus = this.feeData?.paymentStatus || 'pending';
-  const pendingAmount = this.feeData?.pendingAmount || 0;
-  const dueDate = this.feeData?.dueDate;
-  
-  if (feeStatus === 'overdue' || (dueDate && new Date() > dueDate && pendingAmount > 0)) {
-    financialRisk = 'high';
-    riskFactors.push('Overdue fee payments');
-  } else if (feeStatus === 'partial' || pendingAmount > 0) {
-    financialRisk = 'medium';
-    riskFactors.push('Pending fee payments');
-  }
-  
-  // Overall Risk Calculation
-  let overallRiskLevel = 'low';
-  const highRiskCount = [attendanceRisk, academicRisk, financialRisk].filter(risk => risk === 'high').length;
-  const mediumRiskCount = [attendanceRisk, academicRisk, financialRisk].filter(risk => risk === 'medium').length;
-  
-  if (highRiskCount >= 2) {
-    overallRiskLevel = 'critical';
-    riskFactors.push('Multiple high-risk factors detected');
-  } else if (highRiskCount >= 1) {
-    overallRiskLevel = 'high';
-  } else if (mediumRiskCount >= 2) {
-    overallRiskLevel = 'high';
-  } else if (mediumRiskCount >= 1) {
-    overallRiskLevel = 'medium';
-  }
-  
-  // Update risk analysis
-  this.riskAnalysis = {
-    overallRiskLevel,
-    attendanceRisk,
-    academicRisk,
-    financialRisk,
-    riskFactors,
-    lastAnalysisDate: new Date(),
-    alertsGenerated: this.riskAnalysis?.alertsGenerated || []
-  };
-  
-  return this.riskAnalysis;
-};
-
-// Generate alert if risk threshold is met
-userSchema.methods.generateRiskAlert = function() {
-  const riskAnalysis = this.calculateRiskAnalysis();
-  if (!riskAnalysis) return null;
-  
-  const { overallRiskLevel, riskFactors } = riskAnalysis;
-  
-  // Generate alert for high or critical risk
-  if (overallRiskLevel === 'high' || overallRiskLevel === 'critical') {
-    const alert = {
-      type: 'multi-factor',
-      severity: overallRiskLevel,
-      message: `Student ${this.name} (${this.rollNumber || this.email}) requires immediate attention: ${riskFactors.join(', ')}`,
-      date: new Date(),
-      acknowledged: false
-    };
-    
-    // Add to alerts if not already present
-    const existingAlert = this.riskAnalysis.alertsGenerated.find(
-      a => a.type === alert.type && a.severity === alert.severity && !a.acknowledged
-    );
-    
-    if (!existingAlert) {
-      this.riskAnalysis.alertsGenerated.push(alert);
-      return alert;
-    }
-  }
-  
-  return null;
-};
+// The risk calculation and alert generation methods have been moved to RiskAnalysisService
 
 // Update attendance data
 userSchema.methods.updateAttendance = function(date, status, subject = null) {
@@ -296,7 +195,7 @@ userSchema.methods.updateAttendance = function(date, status, subject = null) {
   this.attendanceData.lastUpdated = new Date();
   
   // Trigger risk analysis
-  this.calculateRiskAnalysis();
+  this.riskAnalysis = RiskAnalysisService.calculateRiskAnalysis(this) || this.riskAnalysis;
 };
 
 // Add test result
@@ -334,7 +233,7 @@ userSchema.methods.addTestResult = function(testData) {
   this.academicData.lastUpdated = new Date();
   
   // Trigger risk analysis
-  this.calculateRiskAnalysis();
+  this.riskAnalysis = RiskAnalysisService.calculateRiskAnalysis(this) || this.riskAnalysis;
 };
 
 module.exports = mongoose.model('User', userSchema);

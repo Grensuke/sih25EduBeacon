@@ -3,6 +3,17 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Organization = require('../models/Organization');
 const { auth } = require('../middleware/auth');
+const { validate, authSchemas } = require('../middleware/validator');
+const rateLimit = require('express-rate-limit');
+
+// Rate limiting for auth routes
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // Limit each IP to 50 requests per `window` (here, per 15 minutes)
+  message: { message: 'Too many requests from this IP, please try again after 15 minutes' },
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 
 const router = express.Router();
 
@@ -18,7 +29,7 @@ const generateToken = (id) => {
 // @route   POST /api/auth/admin-register
 // @desc    Register admin and create organization
 // @access  Public
-router.post('/admin-register', async (req, res) => {
+router.post('/admin-register', authLimiter, validate(authSchemas.adminRegister), async (req, res) => {
   if (process.env.DISABLE_PUBLIC_ADMIN_REGISTER === 'true') {
     return res.status(403).json({ message: 'Admin registration is disabled on this server.' });
   }
@@ -56,8 +67,15 @@ router.post('/admin-register', async (req, res) => {
 
     const token = generateToken(admin._id);
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
+
     res.status(201).json({
-      token,
+      token, // Kept for backwards compatibility if needed during transition
       user: {
         id: admin._id,
         name: admin.name,
@@ -75,7 +93,7 @@ router.post('/admin-register', async (req, res) => {
 // @route   POST /api/auth/login
 // @desc    Login user
 // @access  Public
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, validate(authSchemas.login), async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -93,8 +111,15 @@ router.post('/login', async (req, res) => {
 
     const token = generateToken(user._id);
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
+
     res.json({
-      token,
+      token, // Kept for backwards compatibility
       user: {
         id: user._id,
         name: user.name,
@@ -119,6 +144,17 @@ router.post('/login', async (req, res) => {
 // @access  Private
 router.get('/me', auth, (req, res) => {
   res.json(req.user);
+});
+
+// @route   POST /api/auth/logout
+// @desc    Logout user
+// @access  Private
+router.post('/logout', auth, (req, res) => {
+  res.cookie('token', 'none', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+  res.status(200).json({ success: true, message: 'User logged out' });
 });
 
 module.exports = router;

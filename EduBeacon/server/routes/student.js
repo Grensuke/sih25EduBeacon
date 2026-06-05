@@ -56,7 +56,7 @@ router.post('/chatbot', async (req, res) => {
     }
 
     // Use supported model and endpoint; allow configuration via env
-    const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+    const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
     const apiVersion = process.env.GEMINI_API_VERSION || 'v1beta';
     const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
 

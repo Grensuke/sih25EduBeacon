@@ -3,9 +3,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
+const cookieParser = require('cookie-parser');
 const connectDB = require('./config/database');
 const { buildCorsOptions } = require('./lib/cors');
-const { isProduction, devLog } = require('./lib/logger');
+const { isProduction, logger, devLog } = require('./lib/logger');
 
 // Load environment variables (prefer config.env next to this file, fallback to .env)
 const configPath = path.join(__dirname, 'config.env');
@@ -22,7 +23,7 @@ try {
     }
   }
 } catch (e) {
-  console.warn('[Startup] Unable to force-load GEMINI_API_KEY from config.env:', e?.message);
+  logger.warn({ err: e }, '[Startup] Unable to force-load GEMINI_API_KEY from config.env');
 }
 
 function validateEnv() {
@@ -30,8 +31,8 @@ function validateEnv() {
   if (!process.env.MONGODB_URI) missing.push('MONGODB_URI');
   if (!process.env.JWT_SECRET) missing.push('JWT_SECRET');
   if (missing.length) {
-    console.error(`[Startup] Missing required env: ${missing.join(', ')}`);
-    console.error('[Startup] Copy server/.env.example to server/.env and fill in values.');
+    logger.error(`[Startup] Missing required env: ${missing.join(', ')}`);
+    logger.error('[Startup] Copy server/.env.example to server/.env and fill in values.');
     process.exit(1);
   }
 }
@@ -39,7 +40,7 @@ function validateEnv() {
 validateEnv();
 
 if (!process.env.GEMINI_API_KEY) {
-  console.warn('[Startup] GEMINI_API_KEY is not set. The AI chatbot will be disabled until configured.');
+  logger.warn('[Startup] GEMINI_API_KEY is not set. The AI chatbot will be disabled until configured.');
 } else if (!isProduction) {
   devLog('[Startup] GEMINI_API_KEY configured');
 }
@@ -51,6 +52,7 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/admin', require('./routes/admin'));
@@ -65,13 +67,8 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.use((err, req, res, next) => {
-  if (err) {
-    console.error('[Server]', err.message || err);
-    return res.status(500).json({ message: 'Server error' });
-  }
-  next();
-});
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
@@ -79,10 +76,10 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      logger.info(`Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('[Startup] Failed to start:', error.message);
+    logger.error({ err: error }, '[Startup] Failed to start');
     process.exit(1);
   }
 };

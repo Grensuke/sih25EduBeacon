@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import axios from 'axios';
 
+// Ensure cookies are sent with every request
+axios.defaults.withCredentials = true;
+
 const AuthContext = createContext();
 
 const authReducer = (state, action) => {
@@ -42,12 +45,35 @@ export const AuthProvider = ({ children }) => {
     loading: true
   });
 
+  // Setup Axios Interceptors
   useEffect(() => {
-    if (state.token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
-    } else {
-      delete axios.defaults.headers.common['Authorization'];
-    }
+    const requestInterceptor = axios.interceptors.request.use(
+      (config) => {
+        // Fallback: still send token in header if we have it in state
+        if (state.token) {
+          config.headers['Authorization'] = `Bearer ${state.token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          // Centralized 401 handler
+          dispatch({ type: 'LOGOUT' });
+          localStorage.removeItem('token');
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
   }, [state.token]);
 
   useEffect(() => {
@@ -123,9 +149,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    dispatch({ type: 'LOGOUT' });
+  const logout = async () => {
+    try {
+      await axios.post('/api/auth/logout');
+    } catch (e) {
+      console.error('Logout failed:', e);
+    } finally {
+      localStorage.removeItem('token');
+      dispatch({ type: 'LOGOUT' });
+    }
   };
 
   return (

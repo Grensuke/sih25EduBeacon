@@ -4,7 +4,12 @@ const { devLog, devWarn } = require('../lib/logger');
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    let token = req.header('Authorization')?.replace('Bearer ', '');
+    
+    if (!token && req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+    }
+
     if (!token) {
       devWarn('[Auth] No token provided', { method: req.method, path: req.originalUrl });
       return res.status(401).json({ message: 'No token, authorization denied' });

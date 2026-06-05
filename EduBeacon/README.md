@@ -141,6 +141,7 @@ Copy `server/.env.example` to `server/.env` and fill in values. Never commit `.e
 | `MONGODB_URI` | Yes | MongoDB connection string |
 | `JWT_SECRET` | Yes | Secret for signing JWTs |
 | `GEMINI_API_KEY` | Yes (for AI chat) | Google Gemini API key |
+| `GEMINI_MODEL` | No | Model to use for AI chat (default: `gemini-3.5-flash`) |
 | `PORT` | No | Default `5000` |
 
 **Frontend (production):** set `REACT_APP_API_BASE` on Vercel to your deployed API URL. See `client/.env.example`.
