@@ -208,7 +208,7 @@ const StudentDashboard = () => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1 w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="input-field flex-1"
                 disabled={isTyping}
               />
               <button
@@ -242,20 +242,20 @@ const StudentDashboard = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Mood (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.mood} onChange={(e) => setWb({ ...wb, mood: Number(e.target.value) })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+                  <input type="number" min="1" max="5" value={wb.mood} onChange={(e) => setWb({ ...wb, mood: Number(e.target.value) })} className="input-field" />
                 </div>
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Stress (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.stress} onChange={(e) => setWb({ ...wb, stress: Number(e.target.value) })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+                  <input type="number" min="1" max="5" value={wb.stress} onChange={(e) => setWb({ ...wb, stress: Number(e.target.value) })} className="input-field" />
                 </div>
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Sleep (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.sleep} onChange={(e) => setWb({ ...wb, sleep: Number(e.target.value) })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+                  <input type="number" min="1" max="5" value={wb.sleep} onChange={(e) => setWb({ ...wb, sleep: Number(e.target.value) })} className="input-field" />
                 </div>
               </div>
               <div>
                 <label className="block text-white/80 text-sm mb-1">Notes (optional)</label>
-                <textarea rows="3" value={wb.notes} onChange={(e) => setWb({ ...wb, notes: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Anything you'd like to share..." />
+                <textarea rows="3" value={wb.notes} onChange={(e) => setWb({ ...wb, notes: e.target.value })} className="input-field" placeholder="Anything you'd like to share..." />
               </div>
               <div className="flex gap-3 items-center">
                 <button type="submit" className="btn-primary" disabled={wbSending}>{wbSending ? 'Submitting...' : 'Submit'}</button>

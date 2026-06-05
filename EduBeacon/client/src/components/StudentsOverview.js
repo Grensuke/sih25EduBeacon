@@ -219,7 +219,7 @@ const StudentsOverview = () => {
               placeholder="Name, Roll No, Email..."
               value={filters.search}
               onChange={(e) => setFilters({...filters, search: e.target.value})}
-              className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="input-field"
             />
           </div>
           <div>
@@ -227,7 +227,7 @@ const StudentsOverview = () => {
             <select
               value={filters.riskLevel}
               onChange={(e) => setFilters({...filters, riskLevel: e.target.value})}
-              className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="input-field"
             >
               <option value="all">All Levels</option>
               <option value="critical">Critical</option>
@@ -243,7 +243,7 @@ const StudentsOverview = () => {
               placeholder="75"
               value={filters.attendanceThreshold}
               onChange={(e) => setFilters({...filters, attendanceThreshold: Number(e.target.value)})}
-              className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="input-field"
             />
           </div>
           <div>
@@ -254,7 +254,7 @@ const StudentsOverview = () => {
               placeholder="2.5"
               value={filters.academicThreshold}
               onChange={(e) => setFilters({...filters, academicThreshold: Number(e.target.value)})}
-              className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="input-field"
             />
           </div>
           <div>
@@ -262,7 +262,7 @@ const StudentsOverview = () => {
             <select
               value={filters.feeStatus}
               onChange={(e) => setFilters({...filters, feeStatus: e.target.value})}
-              className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="input-field"
             >
               <option value="all">All Status</option>
               <option value="overdue">Overdue</option>
