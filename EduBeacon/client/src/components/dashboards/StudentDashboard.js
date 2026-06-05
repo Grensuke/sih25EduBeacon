@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BookOpen, ClipboardList, MessageSquare } from 'lucide-react';
 import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import NumberInput from '../NumberInput';
 
 const StudentDashboard = () => {
