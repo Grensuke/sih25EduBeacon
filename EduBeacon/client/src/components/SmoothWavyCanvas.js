@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, memo } from 'react';
 
 const SmoothWavyCanvas = ({
   backgroundColor = '#000000',
@@ -78,7 +78,7 @@ const SmoothWavyCanvas = ({
       ctx.beginPath();
       ctx.lineWidth = thickness;
       ctx.strokeStyle = `rgba(${primaryColor}, ${opacity})`;
-      for (let x = 0; x < width; x += 2) {
+      for (let x = 0; x <= width + 30; x += 30) {
         const y =
           yPos +
           amplitude * Math.sin(x * frequency + speed);
@@ -104,7 +104,7 @@ const SmoothWavyCanvas = ({
       ctx.beginPath();
       ctx.lineWidth = thickness;
       ctx.strokeStyle = `rgba(${secondaryColor}, ${opacity})`;
-      for (let y = 0; y < height; y += 2) {
+      for (let y = 0; y <= height + 30; y += 30) {
         const x =
           xPos +
           amplitude * Math.sin(y * frequency + speed);
@@ -143,7 +143,7 @@ const SmoothWavyCanvas = ({
       }
       ctx.stroke();
     }
-    requestIdRef.current = requestAnimationFrame(animate);
+    // requestIdRef.current = requestAnimationFrame(animate); // Animation loop disabled for maximum performance
   }, [
     backgroundColor,
     primaryColor,
@@ -160,7 +160,10 @@ const SmoothWavyCanvas = ({
 
     resizeCanvas();
 
-    const handleResize = () => resizeCanvas();
+    const handleResize = () => {
+      resizeCanvas();
+      animate();
+    };
     window.addEventListener('resize', handleResize);
 
     animate();
@@ -191,4 +194,4 @@ const SmoothWavyCanvas = ({
   );
 };
 
-export default SmoothWavyCanvas;
+export default memo(SmoothWavyCanvas);

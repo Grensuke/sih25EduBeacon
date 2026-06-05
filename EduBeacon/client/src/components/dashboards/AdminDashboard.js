@@ -278,24 +278,31 @@ const AdminDashboard = () => {
       {/* Tab Content */}
       {activeTab === 'dashboard' && (
         <>
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-primary-400">{users.length}</div>
-          <div className="text-primary-300">Total Users</div>
-        </div>
-        <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-primary-400">{users.filter(u => u.role === 'student').length}</div>
-          <div className="text-primary-300">Students</div>
-        </div>
-        <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-primary-400">{users.filter(u => u.role === 'mentor').length}</div>
-          <div className="text-primary-300">Mentors</div>
-        </div>
-        <div className="stats-card rounded-xl p-6">
-          <div className="text-2xl font-bold text-primary-400">{departments.length}</div>
-          <div className="text-primary-300">Departments</div>
-        </div>
+      {/* Optimized GPU-Accelerated Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {[
+          { label: 'Total Users', value: users.length },
+          { label: 'Students', value: users.filter(u => u.role === 'student').length },
+          { label: 'Mentors', value: users.filter(u => u.role === 'mentor').length },
+          { label: 'Departments', value: departments.length },
+        ].map((stat, i) => (
+          <div 
+            key={i} 
+            className="group relative rounded-xl p-6 overflow-hidden border border-[rgba(51,116,253,0.3)]"
+          >
+            {/* Static Glassmorphism Background (No animation here to save GPU) */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[rgba(51,116,253,0.2)] via-[rgba(51,116,253,0.1)] to-[rgba(51,116,253,0.25)] backdrop-blur-[25px] saturate-[200%] z-0"></div>
+            
+            {/* Hover Glow Overlay (Animates only opacity, highly optimized) */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[rgba(51,116,253,0.35)] via-[rgba(51,116,253,0.25)] to-[rgba(51,116,253,0.4)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out z-0"></div>
+
+            {/* Content Layer */}
+            <div className="relative z-10">
+              <div className="text-2xl font-bold text-primary-400">{stat.value}</div>
+              <div className="text-primary-300">{stat.label}</div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Users Table */}
@@ -339,7 +346,7 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
           <div>
             <label className="block text-[rgb(51,116,253)] text-sm mb-2">Student</label>
-            <select value={selectedStudentId} onChange={(e) => setSelectedStudentId(e.target.value)} className="input-field">
+            <select value={selectedStudentId} onChange={(e) => setSelectedStudentId(e.target.value)} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300">
               <option value="">Select a student</option>
               {students.map(s => (
                 <option key={s._id} value={s._id}>{s.name} ({s.email})</option>
@@ -348,7 +355,7 @@ const AdminDashboard = () => {
           </div>
           <div>
             <label className="block text-primary-400 text-sm mb-2">Mentor</label>
-            <select value={selectedMentorId} onChange={(e) => setSelectedMentorId(e.target.value)} className="input-field">
+            <select value={selectedMentorId} onChange={(e) => setSelectedMentorId(e.target.value)} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300">
               <option value="">Select a mentor</option>
               {mentors.map(m => (
                 <option key={m._id} value={m._id}>{m.name} ({m.email})</option>
@@ -377,7 +384,7 @@ const AdminDashboard = () => {
           <div className="flex gap-3 items-end">
             <div>
               <label className="block text-[rgb(51,116,253)] text-sm mb-2">Student</label>
-              <select value={selectedStudentId} onChange={(e) => setSelectedStudentId(e.target.value)} className="input-field">
+              <select value={selectedStudentId} onChange={(e) => setSelectedStudentId(e.target.value)} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300">
                 <option value="">Select a student</option>
                 {students.map(s => (
                   <option key={s._id} value={s._id}>{s.name}</option>
@@ -386,7 +393,7 @@ const AdminDashboard = () => {
             </div>
             <div>
               <label className="block text-[rgb(51,116,253)] text-sm mb-2">Week Start (Mon)</label>
-              <input type="date" value={weekStart} onChange={(e) => setWeekStart(e.target.value)} className="input-field" />
+              <input type="date" value={weekStart} onChange={(e) => setWeekStart(e.target.value)} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300" />
               <p className="text-xs text-[rgb(51,116,253)] mt-1">Week End: {computedWeekEnd}</p>
             </div>
             <div className="flex gap-2">
@@ -400,7 +407,7 @@ const AdminDashboard = () => {
           <table className="min-w-full border-separate border-spacing-0">
             <thead>
               <tr>
-                <th className="sticky left-0 z-10 bg-black/20 backdrop-blur-md text-white px-3 py-2 border border-white/10">Time</th>
+                <th className="sticky left-0 z-10 bg-[rgba(51,116,253,0.1)] text-white px-3 py-2 border border-white/10">Time</th>
                 {DAYS.map((d) => (
                   <th key={d} className="text-left text-white px-3 py-2 border border-white/10 bg-white/10">{d}</th>
                 ))}
@@ -409,14 +416,14 @@ const AdminDashboard = () => {
             <tbody>
               {HOURS.map((h, hIdx) => (
                 <tr key={h}>
-                  <td className="sticky left-0 z-10 bg-black/20 backdrop-blur-md text-white px-3 py-2 border border-white/10 font-mono">{`${h}:00 - ${h + 1}:00`}</td>
+                  <td className="sticky left-0 z-10 bg-[rgba(51,116,253,0.1)] text-white px-3 py-2 border border-white/10 font-mono">{`${h}:00 - ${h + 1}:00`}</td>
                   {DAYS.map((_, dIdx) => (
                     <td key={`${dIdx}-${hIdx}`} className="border border-white/10 p-0">
                       <input
                         value={grid[dIdx][hIdx]}
                         onChange={(e) => handleCellChange(dIdx, hIdx, e.target.value)}
                         placeholder="Class / Subject"
-                        className="w-full h-full px-2 py-2 bg-black/20 backdrop-blur-md text-white placeholder-white/40 focus:outline-none"
+                        className="w-full h-full px-2 py-2 bg-[rgba(51,116,253,0.1)] text-white placeholder-white/40 focus:outline-none"
                       />
                     </td>
                   ))}
@@ -447,10 +454,10 @@ const AdminDashboard = () => {
           <div className="glass-effect rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-bold mb-4 text-white">Add New User</h3>
             <form onSubmit={handleAddUser} className="space-y-4">
-              <input type="text" placeholder="Name" value={newUser.name} onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} className="input-field" required />
-              <input type="email" placeholder="Email" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} className="input-field" required />
-              <input type="password" placeholder="Password" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} className="input-field" required />
-              <select value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })} className="input-field">
+              <input type="text" placeholder="Name" value={newUser.name} onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300" required />
+              <input type="email" placeholder="Email" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300" required />
+              <input type="password" placeholder="Password" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300" required />
+              <select value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300">
                 <option value="student">Student</option>
                 <option value="mentor">Mentor</option>
               </select>
@@ -469,8 +476,8 @@ const AdminDashboard = () => {
           <div className="glass-effect rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-bold mb-4 text-white">Add New Department</h3>
             <form onSubmit={handleAddDept} className="space-y-4">
-              <input type="text" placeholder="Department Name" value={newDept.name} onChange={(e) => setNewDept({ ...newDept, name: e.target.value })} className="input-field" required />
-              <textarea placeholder="Description" value={newDept.description} onChange={(e) => setNewDept({ ...newDept, description: e.target.value })} className="input-field" rows="3" />
+              <input type="text" placeholder="Department Name" value={newDept.name} onChange={(e) => setNewDept({ ...newDept, name: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300" required />
+              <textarea placeholder="Description" value={newDept.description} onChange={(e) => setNewDept({ ...newDept, description: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300" rows="3" />
               <div className="flex space-x-4">
                 <button type="submit" className="btn-primary flex-1">Add Department</button>
                 <button type="button" onClick={() => setShowAddDept(false)} className="btn-secondary flex-1">Cancel</button>

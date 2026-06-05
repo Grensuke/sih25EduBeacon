@@ -86,7 +86,6 @@
     padding: 0.625rem 1.5rem;
     box-shadow: 0 8px 32px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0.2) 50%, rgba(37, 99, 235, 0.4) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
     border-color: rgba(37, 99, 235, 0.3);
     color: rgb(59, 130, 246);
     will-change: transform;
@@ -109,7 +108,6 @@
     padding: 0.625rem 1.5rem;
     box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0.1) 50%, rgba(37, 99, 235, 0.3) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
     border-color: rgba(37, 99, 235, 0.2);
     color: rgb(59, 130, 246);
     will-change: transform;
@@ -230,7 +228,7 @@
   .card {
     @apply rounded-xl shadow-lg p-6 border motion-safe;
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0.08) 50%, rgba(37, 99, 235, 0.2) 100%);
-    backdrop-filter: blur(25px) saturate(200%);
+
     border: 1px solid rgba(37, 99, 235, 0.2);
     box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     contain: layout style;
@@ -242,7 +240,6 @@
     padding: 0.75rem 1rem;
     border-radius: 12px;
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0.1) 50%, rgba(37, 99, 235, 0.25) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(37, 99, 235, 0.3);
     box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     color: rgb(59, 130, 246);
@@ -267,7 +264,7 @@
 
   .glass-effect {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.25) 0%, rgba(51, 116, 253, 0.15) 50%, rgba(51, 116, 253, 0.3) 100%);
-    backdrop-filter: blur(25px) saturate(200%);
+
     border: 1px solid rgba(51, 116, 253, 0.3);
     box-shadow: 0 8px 32px rgba(51, 116, 253, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     position: relative;
@@ -276,20 +273,12 @@
   }
 
   .glass-effect::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    animation: liquid-shimmer 3s infinite;
-    pointer-events: none;
+    display: none;
   }
 
   .nav-glass-effect {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.2) 0%, rgba(51, 116, 253, 0.1) 50%, rgba(51, 116, 253, 0.25) 100%);
-    backdrop-filter: blur(25px) saturate(200%);
+
     border-bottom: 1px solid rgba(51, 116, 253, 0.3);
     box-shadow: 0 4px 16px rgba(51, 116, 253, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
@@ -307,14 +296,7 @@
     min-height: 100vh;
   }
 
-  @keyframes liquid-shimmer {
-    0% {
-      transform: translate3d(-100%, 0, 0);
-    }
-    100% {
-      transform: translate3d(100%, 0, 0);
-    }
-  }
+
 
   .glass-effect:hover {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.35) 0%, rgba(51, 116, 253, 0.25) 50%, rgba(51, 116, 253, 0.4) 100%);
@@ -325,7 +307,7 @@
 
   .liquid-glass-table {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.1) 0%, rgba(51, 116, 253, 0.05) 50%, rgba(51, 116, 253, 0.15) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
+
     border: 1px solid rgba(51, 116, 253, 0.2);
     border-radius: 16px;
     overflow: hidden;
@@ -333,12 +315,12 @@
 
   .liquid-glass-table thead {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.2) 0%, rgba(51, 116, 253, 0.15) 100%);
-    backdrop-filter: blur(15px);
+
   }
 
   .stats-card {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.2) 0%, rgba(51, 116, 253, 0.1) 50%, rgba(51, 116, 253, 0.25) 100%);
-    backdrop-filter: blur(25px) saturate(200%);
+
     border: 1px solid rgba(51, 116, 253, 0.3);
     box-shadow: 0 8px 32px rgba(51, 116, 253, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     position: relative;
@@ -356,7 +338,7 @@
 
   .liquid-form {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.15) 0%, rgba(51, 116, 253, 0.08) 50%, rgba(51, 116, 253, 0.2) 100%);
-    backdrop-filter: blur(30px) saturate(200%);
+
     border: 1px solid rgba(51, 116, 253, 0.25);
     box-shadow: 0 16px 48px rgba(51, 116, 253, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
@@ -365,7 +347,6 @@
 
   .error-message {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(248, 113, 113, 0.35);
     color: rgb(252, 165, 165);
     border-radius: 12px;
@@ -388,14 +369,12 @@
 
   .chat-message-user {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.3) 0%, rgba(51, 116, 253, 0.2) 100%);
-    backdrop-filter: blur(15px) saturate(180%);
     border: 1px solid rgba(51, 116, 253, 0.2);
     color: rgb(51, 116, 253);
   }
 
   .chat-message-ai {
     background: linear-gradient(135deg, rgba(51, 116, 253, 0.1) 0%, rgba(51, 116, 253, 0.05) 100%);
-    backdrop-filter: blur(15px) saturate(180%);
     border: 1px solid rgba(51, 116, 253, 0.1);
     color: rgb(51, 116, 253);
   }

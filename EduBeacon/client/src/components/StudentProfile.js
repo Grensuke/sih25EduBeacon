@@ -72,7 +72,7 @@ const StudentProfile = ({ studentId, onClose }) => {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
         <div className="glass-effect rounded-xl p-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[rgb(51,116,253)] mx-auto"></div>
           <p className="text-[rgb(51,116,253)] mt-4 text-center">Loading student profile...</p>
@@ -83,7 +83,7 @@ const StudentProfile = ({ studentId, onClose }) => {
 
   if (!student) {
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
         <div className="glass-effect rounded-xl p-8">
           <p className="text-[rgb(51,116,253)] text-center">Student not found</p>
           <button onClick={onClose} className="btn-primary mt-4">Close</button>
@@ -93,7 +93,7 @@ const StudentProfile = ({ studentId, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
+    <div className="fixed inset-0 bg-black/70 z-50 overflow-y-auto">
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="glass-effect rounded-xl shadow-2xl">
@@ -160,7 +160,7 @@ const StudentProfile = ({ studentId, onClose }) => {
               {activeTab === 'overview' && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Attendance Summary */}
-                  <div className="stats-card rounded-xl p-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                     <h3 className="text-lg font-bold text-[rgb(51,116,253)] mb-2">Attendance</h3>
                     <div className="text-3xl font-bold text-[rgb(51,116,253)] mb-1">
                       {student.attendanceData?.percentage || 0}%
@@ -174,7 +174,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                   </div>
 
                   {/* Academic Summary */}
-                  <div className="stats-card rounded-xl p-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                     <h3 className="text-lg font-bold text-[rgb(51,116,253)] mb-2">Academic</h3>
                     <div className="text-3xl font-bold text-[rgb(51,116,253)] mb-1">
                       {student.academicData?.gpa?.toFixed(2) || '0.00'}
@@ -188,7 +188,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                   </div>
 
                   {/* Financial Summary */}
-                  <div className="stats-card rounded-xl p-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                     <h3 className="text-lg font-bold text-[rgb(51,116,253)] mb-2">Fee Status</h3>
                     <div className="text-3xl font-bold text-[rgb(51,116,253)] mb-1">
                       ₹{student.feeData?.pendingAmount || 0}
@@ -205,7 +205,7 @@ const StudentProfile = ({ studentId, onClose }) => {
 
               {activeTab === 'attendance' && (
                 <div className="space-y-6">
-                  <div className="glass-effect rounded-xl p-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                     <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Attendance History (Last 30 Days)</h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
@@ -237,7 +237,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                     </div>
                   </div>
 
-                  <div className="glass-effect rounded-xl p-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                     <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Recent Attendance Records</h3>
                     <div className="overflow-x-auto">
                       <table className="liquid-glass-table min-w-full">
@@ -276,7 +276,7 @@ const StudentProfile = ({ studentId, onClose }) => {
               {activeTab === 'academic' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="glass-effect rounded-xl p-6">
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                       <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Subject-wise Performance</h3>
                       <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
@@ -299,7 +299,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                       </div>
                     </div>
 
-                    <div className="glass-effect rounded-xl p-6">
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                       <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Recent Test Results</h3>
                       <div className="space-y-3 max-h-64 overflow-y-auto">
                         {student.academicData?.testResults?.slice(-5).reverse().map((test, index) => (
@@ -327,7 +327,7 @@ const StudentProfile = ({ studentId, onClose }) => {
               {activeTab === 'financial' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="glass-effect rounded-xl p-6">
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                       <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Fee Summary</h3>
                       <div className="space-y-4">
                         <div className="flex justify-between">
@@ -353,7 +353,7 @@ const StudentProfile = ({ studentId, onClose }) => {
                       </div>
                     </div>
 
-                    <div className="glass-effect rounded-xl p-6">
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                       <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Payment History</h3>
                       <div className="space-y-3 max-h-64 overflow-y-auto">
                         {student.feeData?.paymentHistory?.slice(-5).reverse().map((payment, index) => (
@@ -380,7 +380,7 @@ const StudentProfile = ({ studentId, onClose }) => {
 
               {activeTab === 'alerts' && (
                 <div className="space-y-4">
-                  <div className="glass-effect rounded-xl p-6">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                     <h3 className="text-xl font-bold text-[rgb(51,116,253)] mb-4">Risk Analysis & Alerts</h3>
                     
                     {student.riskAnalysis?.alertsGenerated?.length > 0 ? (

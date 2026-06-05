@@ -127,8 +127,9 @@ const MentorDashboard = () => {
         {/* Weekly Trends */}
         <div className="glass-effect rounded-xl shadow-lg p-6">
           <h2 className="text-xl font-bold text-primary-400 mb-4">Weekly Trends</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={analytics?.weeklyTrends || []}>
+          <div style={{ width: '100%', height: 300 }}>
+            <ResponsiveContainer>
+              <LineChart data={analytics?.weeklyTrends || []}>
               <CartesianGrid strokeDasharray="3 3" stroke="#ffffff40" />
               <XAxis dataKey="week" stroke="rgb(59, 130, 246)" />
               <YAxis stroke="rgb(59, 130, 246)" />
@@ -139,21 +140,24 @@ const MentorDashboard = () => {
               <Line type="monotone" dataKey="attendance" stroke="#60a5fa" strokeWidth={3} />
               <Line type="monotone" dataKey="engagement" stroke="#34d399" strokeWidth={3} />
             </LineChart>
-          </ResponsiveContainer>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Risk Pie */}
         <div className="glass-effect rounded-xl shadow-lg p-6">
           <h2 className="text-xl font-bold text-white mb-4">Dropout Risk Breakdown</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
+          <div style={{ width: '100%', height: 300 }}>
+            <ResponsiveContainer>
+              <PieChart>
               <Pie dataKey="value" data={riskPieData} cx="50%" cy="50%" outerRadius={90} label>
                 {renderPieCells(riskPieData)}
               </Pie>
               <Legend />
               <Tooltip contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 8, color: '#fff' }} />
             </PieChart>
-          </ResponsiveContainer>
+            </ResponsiveContainer>
+          </div>
           {riskSum === 0 && (
             <p className="text-center text-white/70 text-sm mt-2">No risk data yet</p>
           )}
@@ -169,7 +173,7 @@ const MentorDashboard = () => {
               key={student._id}
               type="button"
               onClick={() => openStudentDetail(student._id)}
-              className="btn-tile glass-effect w-full"
+              className="btn-tile bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full"
             >
               <h3 className="font-semibold text-white">{student.name}</h3>
               <p className="text-white/80 text-sm">{student.email}</p>
@@ -208,7 +212,7 @@ const MentorDashboard = () => {
 
       {/* Student Detail Modal */}
       {detailOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
           <div className="glass-effect rounded-lg p-6 w-full max-w-3xl">
             <div className="flex items-start justify-between mb-4">
               <h3 className="text-lg font-bold text-white">Student Details</h3>
@@ -247,15 +251,17 @@ const MentorDashboard = () => {
                   <div className="glass-effect rounded-xl shadow-lg p-4">
                     <h4 className="text-white mb-2 font-semibold">Scores</h4>
                     {Array.isArray(selectedStudent.student.scores) && selectedStudent.student.scores.length > 0 ? (
-                      <ResponsiveContainer width="100%" height={220}>
-                        <BarChart data={selectedStudent.student.scores}>
+                      <div style={{ width: '100%', height: 220 }}>
+                        <ResponsiveContainer>
+                          <BarChart data={selectedStudent.student.scores}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#ffffff40" />
                           <XAxis dataKey="subject" stroke="#ffffff" />
                           <YAxis stroke="#ffffff" />
                           <Tooltip contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 8, color: '#fff' }} />
                           <Bar dataKey="value" fill="#60a5fa" />
                         </BarChart>
-                      </ResponsiveContainer>
+                        </ResponsiveContainer>
+                      </div>
                     ) : (
                       <p className="text-white/70 text-sm">No scores available</p>
                     )}
@@ -272,14 +278,16 @@ const MentorDashboard = () => {
                       const total = data.reduce((a,b) => a + b.value, 0);
                       return (
                         <>
-                          <ResponsiveContainer width="100%" height={220}>
-                            <PieChart>
+                          <div style={{ width: '100%', height: 220 }}>
+                            <ResponsiveContainer>
+                              <PieChart>
                               <Pie dataKey="value" data={data} cx="50%" cy="50%" outerRadius={70} label>
                                 {renderPieCells(data)}
                               </Pie>
                               <Legend />
                             </PieChart>
-                          </ResponsiveContainer>
+                            </ResponsiveContainer>
+                          </div>
                           {total === 1 && data[0].key === 'none' && (
                             <p className="text-center text-white/70 text-sm mt-2">No risk data yet</p>
                           )}

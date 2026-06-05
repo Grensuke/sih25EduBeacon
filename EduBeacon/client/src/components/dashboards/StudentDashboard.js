@@ -144,7 +144,7 @@ const StudentDashboard = () => {
                   {event.description && (
                     <p className="text-sm text-primary-300 mt-2">{event.description}</p>
                   )}
-                  <span className={`inline-block mt-2 px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm ${
+                  <span className={`inline-block mt-2 px-3 py-1 text-xs font-medium rounded-full ${
                     event.type === 'class' ? 'bg-blue-400/20 text-blue-200 border border-blue-400/30' :
                     event.type === 'meeting' ? 'bg-emerald-400/20 text-emerald-200 border border-emerald-400/30' :
                     event.type === 'event' ? 'bg-purple-400/20 text-purple-200 border border-purple-400/30' :
@@ -174,8 +174,8 @@ const StudentDashboard = () => {
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       message.sender === 'user'
-                        ? 'bg-black/20 backdrop-blur-md text-white border border-white/20'
-                        : 'bg-black/20 backdrop-blur-md text-white border border-white/20'
+                        ? 'bg-black/20 text-white border border-white/20'
+                        : 'bg-black/20 text-white border border-white/20'
                     }`}
                   >
                     <p className="text-sm">{message.text}</p>
@@ -189,7 +189,7 @@ const StudentDashboard = () => {
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-black/20 backdrop-blur-md text-white px-4 py-2 rounded-lg border border-white/20">
+                  <div className="bg-black/20 text-white px-4 py-2 rounded-lg border border-white/20">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -202,13 +202,13 @@ const StudentDashboard = () => {
             </div>
 
             {/* Message Input */}
-            <form onSubmit={handleSendMessage} className="mt-2 sticky bottom-0 left-0 right-0 flex space-x-2 bg-black/20 backdrop-blur-md p-3 rounded-lg border border-white/10">
+            <form onSubmit={handleSendMessage} className="mt-2 sticky bottom-0 left-0 right-0 flex space-x-2 bg-black/20 p-3 rounded-lg border border-white/10">
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1 input-field"
+                className="flex-1 w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 disabled={isTyping}
               />
               <button
@@ -242,20 +242,20 @@ const StudentDashboard = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Mood (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.mood} onChange={(e) => setWb({ ...wb, mood: Number(e.target.value) })} className="input-field" />
+                  <input type="number" min="1" max="5" value={wb.mood} onChange={(e) => setWb({ ...wb, mood: Number(e.target.value) })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
                 </div>
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Stress (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.stress} onChange={(e) => setWb({ ...wb, stress: Number(e.target.value) })} className="input-field" />
+                  <input type="number" min="1" max="5" value={wb.stress} onChange={(e) => setWb({ ...wb, stress: Number(e.target.value) })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
                 </div>
                 <div>
                   <label className="block text-white/80 text-sm mb-1">Sleep (1-5)</label>
-                  <input type="number" min="1" max="5" value={wb.sleep} onChange={(e) => setWb({ ...wb, sleep: Number(e.target.value) })} className="input-field" />
+                  <input type="number" min="1" max="5" value={wb.sleep} onChange={(e) => setWb({ ...wb, sleep: Number(e.target.value) })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
                 </div>
               </div>
               <div>
                 <label className="block text-white/80 text-sm mb-1">Notes (optional)</label>
-                <textarea rows="3" value={wb.notes} onChange={(e) => setWb({ ...wb, notes: e.target.value })} className="input-field" placeholder="Anything you'd like to share..." />
+                <textarea rows="3" value={wb.notes} onChange={(e) => setWb({ ...wb, notes: e.target.value })} className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Anything you'd like to share..." />
               </div>
               <div className="flex gap-3 items-center">
                 <button type="submit" className="btn-primary" disabled={wbSending}>{wbSending ? 'Submitting...' : 'Submit'}</button>
@@ -270,17 +270,17 @@ const StudentDashboard = () => {
       <div className="glass-effect rounded-xl shadow-lg p-6">
         <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button type="button" className="btn-tile glass-effect">
+          <button type="button" className="btn-tile bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
             <div className="text-2xl mb-2">📚</div>
             <h3 className="font-semibold text-white">Study Resources</h3>
             <p className="text-sm text-white/80">Access learning materials</p>
           </button>
-          <button type="button" className="btn-tile glass-effect">
+          <button type="button" className="btn-tile bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
             <div className="text-2xl mb-2">📝</div>
             <h3 className="font-semibold text-white">Submit Assignment</h3>
             <p className="text-sm text-white/80">Upload your work</p>
           </button>
-          <button type="button" className="btn-tile glass-effect">
+          <button type="button" className="btn-tile bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
             <div className="text-2xl mb-2">📞</div>
             <h3 className="font-semibold text-white">Contact Mentor</h3>
             <p className="text-sm text-white/80">Get help from your mentor</p>

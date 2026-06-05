@@ -77,7 +77,7 @@ const AdminRegister = () => {
             onChange={handleChange}
             required
             autoComplete="name"
-            className="input-field"
+            className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300"
             placeholder="Enter your full name"
           />
         </div>
@@ -94,7 +94,7 @@ const AdminRegister = () => {
             onChange={handleChange}
             required
             autoComplete="email"
-            className="input-field"
+            className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300"
             placeholder="Enter your email"
           />
         </div>
@@ -110,7 +110,7 @@ const AdminRegister = () => {
             value={formData.organizationName}
             onChange={handleChange}
             required
-            className="input-field"
+            className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300"
             placeholder="Enter organization name"
           />
         </div>
@@ -127,7 +127,7 @@ const AdminRegister = () => {
             onChange={handleChange}
             required
             autoComplete="new-password"
-            className="input-field"
+            className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300"
             placeholder="Create a password"
           />
         </div>
@@ -144,7 +144,7 @@ const AdminRegister = () => {
             onChange={handleChange}
             required
             autoComplete="new-password"
-            className="input-field"
+            className="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all duration-300"
             placeholder="Confirm your password"
           />
         </div>
